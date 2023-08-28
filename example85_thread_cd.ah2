@@ -7,6 +7,8 @@ Persistent
 logger.is_log_open := true
 logger.is_use_editor := true
 
+g_config := Map()
+
 g_text := ''
 g_last_text := ''
 ctx := A_Args[1]
@@ -38,7 +40,9 @@ exe_command(*)
         o := JSON.parse(recv_str)
         x := o['x']
         y := o['y']
+        is_ime_char := o['is_ime_char']
         text := o['text']
+        is_tab := o['is_tab']
     }
     catch as e
     {
@@ -53,7 +57,33 @@ exe_command(*)
     }
     try
     {
-        rtn := youdaocd(text)
+        cd := ''
+        if(g_config['cd'] = 'youdao')
+            cd := 'youdao'
+        else if(g_config['cd'] = 'baidu')
+            cd := 'baidu'
+        else
+            return
+
+        if(is_tab)
+        {
+            if(cd = 'youdao')
+                cd := 'baidu'
+            else
+                cd := 'youdao'
+        }
+
+        if(cd = 'youdao')
+            rtn := youdaocd(text)
+        else if(cd = 'baidu')
+        {
+            if(is_ime_char)
+                rtn := baiducd(text, g_config['BaiduFanyiAPPID'], g_config['BaiduFanyiAPPSEC'], 'zh', 'en')
+            else
+                rtn := baiducd(text, g_config['BaiduFanyiAPPID'], g_config['BaiduFanyiAPPSEC'], 'en', 'zh')
+        }
+        else 
+            return
         logger.info(rtn)
     }
     catch as e
@@ -112,4 +142,54 @@ StrBuf(str, encoding := 'UTF-8')
     ; 复制或转换字符串.
     StrPut(str, buf, encoding)
     return buf
+}
+
+baiducd(keyword, BaiduFanyiAPPID := '', BaiduFanyiAPPSEC := '', from:="en", to:="zh")
+{
+	salt:=A_Now
+    MD5Sign := StrLower(MD5_str(BaiduFanyiAPPID  keyword  salt BaiduFanyiAPPSEC))
+	URL:=Format("http://api.fanyi.Baidu.com/api/trans/vip/translate?q={1}&from={2}&to={3}&appid={4}&salt={5}&sign={6}",keyword,from,to,BaiduFanyiAPPID,salt,MD5Sign )
+	WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
+	WebRequest.Open("GET", url)
+	WebRequest.Send()
+	result := WebRequest.ResponseText
+    try
+    {
+        o := JSON.parse(result)
+        result := o['trans_result'][1]['dst']
+    }
+    catch as e
+    {
+        result := ''
+    }
+	return result
+}
+
+MD5_str(str, encoding := 'UTF-8')
+{
+    bf := StrBuf(str, encoding)
+    if(encoding = 'UTF-8')
+        size := bf.Size - 1
+    else if(encoding = 'UTF-16')
+        size := bf.Size - 2
+    else
+        return ''
+
+    return MD5(bf, size)
+    StrBuf(str, encoding := 'UTF-8')
+    {
+        len := StrPut(str, encoding)
+        buf := Buffer(StrPut(str, encoding))
+        StrPut(str, buf, encoding)
+        return buf
+    }
+}
+MD5(Data, Size:=0)
+{
+	MD5_CTX:=Buffer(104), DllCall("advapi32\MD5Init", "Ptr", MD5_CTX)
+	DllCall("advapi32\MD5Update", "Ptr", MD5_CTX, "Ptr", Data, "UInt", (!Size&&Type(Data)="Buffer") ? Data.Size : Size)
+	DllCall("advapi32\MD5Final", "Ptr", MD5_CTX), MD5:=""
+	Loop 16
+		MD5 .= Format("{:02X}", NumGet(MD5_CTX, 87+A_Index, "UChar"))
+	return MD5
 }

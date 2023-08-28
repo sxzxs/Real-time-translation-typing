@@ -13,17 +13,24 @@ main()
 	global g_zmq_ctx := zmq_ctx_new()
 	global g_sender2plug := Zmq_send2plug() ;通过zmq 和 plug通讯
     global g_thread_plug_cd := Worker('#include ' A_scriptdir '/example85_thread_cd.ah2', string(g_sender2plug.ctx))
+    g_json_path := A_ScriptDir . "/config/setting.json"
+    global g_is_ime_char := false
+
+    global g_config := Map()
+    loadconfig(&g_config, g_json_path)
 
     g_eb.hide()
 	loop
 	{ 
 	}until(g_thread_plug_cd.Ready)
+    g_thread_plug_cd['g_config'] := g_config
 
     Hotkey('!y', (key) => fanyi())
     Hotkey('~Esc', (key) => g_eb.hide())
 	HotIfWinActive("ahk_id " g_eb.ui.hwnd)
         Hotkey("!enter", sound_play)
         Hotkey("enter", send_command)
+        Hotkey("~tab", tab_send)
     HotIf()
 }
 sound_play(*)
@@ -38,6 +45,11 @@ send_command(*)
     SendInput('{RShift Down}{Insert}{RShift Up}')
 }
 
+tab_send(*)
+{
+    g_eb.draw('tab')
+}
+
 fanyi(*)
 {
     if(!(hwnd := GetCaretPosEx(&x, &y, &w, &h)))
@@ -47,7 +59,7 @@ fanyi(*)
     g_eb.show(x, y)
     g_eb.draw()
 }
-cd(text, x := 0, y := 0)
+cd(text, x := 0, y := 0, is_tab := false)
 {
     try
     {
@@ -55,6 +67,8 @@ cd(text, x := 0, y := 0)
         send2cd_param['x'] := x
         send2cd_param['y'] := y
         send2cd_param['text'] := text
+        send2cd_param['is_ime_char'] := g_is_ime_char
+        send2cd_param['is_tab'] := is_tab
         str := JSON.stringify(send2cd_param)
         g_sender2plug.pub(str)
     }
@@ -74,6 +88,8 @@ ON_MESSAGE_WM_CHAR(a*)
 }
 ON_MESSAGE_WM_IME_CHAR(a*)
 {
+    global g_is_ime_char
+    g_is_ime_char := true
     logger.info(a*)
     logger.info(num2utf16(a[1]))
     g_eb.set_imm(a[1])
@@ -96,15 +112,17 @@ class Edit_box
     }
     hide()
     {
+        global g_is_ime_char
         this.clear()
-        this.draw()
+        this.draw('esc')
         this.ui.gui.hide()
+        g_is_ime_char := false
     }
     move(x, y, w := 0, h := 0)
     {
         this.ui.SetPosition(x, y, w, h)
     }
-    draw()
+    draw(flag := 0)
     {
         ui := this.ui
         ui.gui.GetPos(&x, &y, &w, &h)
@@ -121,7 +139,17 @@ class Edit_box
             logger.info(this.text)
             ui.EndDraw()
         }
-        cd(this.text, x, y)
+        if(g_config['cd'] != 'baidu' 
+            || g_config['is_baidu_real_time_translate'] = 1 
+            || SubStr(this.text, -1) == A_Space
+            || flag = 'esc'
+            || flag = 'tab')
+        {
+            if(flag = 'tab')
+                cd(this.text, x, y, true)
+            else
+                cd(this.text, x, y)
+        }
     }
     clear()
     {
@@ -358,7 +386,7 @@ class Zmq_send2plug
 ;by tebayaki
 ;PlayMedia("https://dict.youdao.com/dictvoice?audio=apple")
 
-PlayMedia(uri, time_out := 2000) 
+PlayMedia(uri, time_out := 5000) 
 {
     DllCall("Combase\RoActivateInstance", "ptr", CreateHString("Windows.Media.Playback.MediaPlayer"), "ptr*", iMediaPlayer := ComValue(13, 0), "HRESULT")
     iUri := CreateUri(uri)
@@ -394,4 +422,17 @@ CreateHString(str)
 {
     DllCall("Combase\WindowsCreateString", "wstr", str, "uint", StrLen(str), "ptr*", &hString := 0, "HRESULT")
     return { Ptr: hString, __Delete: (_) => DllCall("Combase\WindowsDeleteString", "ptr", _, "HRESULT") }
+}
+
+loadconfig(&config, json_path)
+{
+    outputvar := FileRead(json_path)
+    config := JSON.parse(outputvar)
+}
+;保存配置函数
+saveconfig(config, json_path)
+{
+    str := JSON.stringify(config, 4)
+    FileDelete(json_path)
+    FileAppend(str, json_path, 'UTF-8')
 }
