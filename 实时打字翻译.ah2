@@ -5,6 +5,7 @@
 
 CoordMode('ToolTip', 'Screen')
 OnMessage(WM_CHAR := 0x0102, ON_MESSAGE_WM_CHAR)
+OnMessage(WM_IME_CHAR := 0x0286, ON_MESSAGE_WM_IME_CHAR)
 main()
 main()
 {
@@ -65,6 +66,13 @@ cd(text, x := 0, y := 0)
 }
 
 ON_MESSAGE_WM_CHAR(a*)
+{
+    logger.info(a*)
+    logger.info(num2utf16(a[1]))
+    if(a[2] != 1)
+        g_eb.set_imm(a[1])
+}
+ON_MESSAGE_WM_IME_CHAR(a*)
 {
     logger.info(a*)
     logger.info(num2utf16(a[1]))
