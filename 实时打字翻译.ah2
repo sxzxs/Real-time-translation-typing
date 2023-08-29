@@ -12,7 +12,7 @@ main()
     global g_eb := Edit_box(0, 0, 1000, 100)
 	global g_zmq_ctx := zmq_ctx_new()
 	global g_sender2plug := Zmq_send2plug() ;通过zmq 和 plug通讯
-    global g_thread_plug_cd := Worker('#include ' A_scriptdir '/example85_thread_cd.ah2', string(g_sender2plug.ctx))
+    global g_thread_plug_cd := Worker('#include ' A_scriptdir '/thread.ah2', string(g_sender2plug.ctx))
     g_json_path := A_ScriptDir . "/config/setting.json"
     global g_is_ime_char := false
 
@@ -29,19 +29,33 @@ main()
     Hotkey('~Esc', (key) => g_eb.hide())
 	HotIfWinActive("ahk_id " g_eb.ui.hwnd)
         Hotkey("!enter", sound_play)
-        Hotkey("enter", send_command)
+        Hotkey("enter", (key) => send_command('translate'))
+        Hotkey("^enter", (key) => send_command('Primitive'))
         Hotkey("~tab", tab_send)
     HotIf()
 }
 sound_play(*)
 {
     data := A_Clipboard
-    PlayMedia('https://dict.youdao.com/dictvoice?audio=' data)
+    data := EncodeDecodeURI(data)
+    if(g_is_ime_char)
+    {
+        PlayMedia('https://dict.youdao.com/dictvoice?audio=' data)
+        logger.info('https://dict.youdao.com/dictvoice?audio=' data)
+    }
+    else
+    {
+        PlayMedia('https://api.oick.cn/txt/apiz.php?text=' data '&spd=10')
+        logger.info('https://api.oick.cn/txt/apiz.php?text=' data '&spd=10')
+    }
 }
 
-send_command(*)
+send_command(p*)
 {
+    data := g_eb.text
     g_eb.hide()
+    if(p[1] == 'Primitive')
+        A_Clipboard := data
     SendInput('{RShift Down}{Insert}{RShift Up}')
 }
 
@@ -317,48 +331,6 @@ GetCaretPosEx(&x?, &y?, &w?, &h?)
     }
 }
 
-youdaocd(text)
-{
-    Url := 'http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null'
-    postdata := 'type=AUTO&i=' text '&doctype=json&xmlVersion=1.4&keyfrom=fanyi.web&ue=UTF-8&typoResult=true&flag=false'
-    rtn := WinHttp(Url ,"POST", postdata)
-    str := byteToStr(rtn, 'UTF-8')
-    logger.info(str)
-    js := JSON.parse(str)
-    logger.info(js['translateResult'][1][1]['tgt'])
-    return js['translateResult'][1][1]['tgt']
-}
-;发送接收数据
-WinHttp(Httpurl, Httpmode := "GET", Httppostdata := "")
-{
-    Httpmode := StrUpper(Httpmode) 
-    XMLHTTP := ComObject("Microsoft.XMLHTTP")
-    XMLHTTP.open(Httpmode, Httpurl, false)
-    XMLHTTP.setRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko/20100101 Firefox/11.0")
-    if Httpmode == 'POST'
-    {
-        XMLHTTP.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-        XMLHTTP.send(Httppostdata)
-    }else
-        XMLHTTP.send()
-    return XMLHTTP.ResponseBody
-}
-;将原始数据流以指定的编码的形式读出
-byteToStr(body, charset)
-{
-    Stream := ComObject("Adodb.Stream")
-    Stream.Type := 1
-    Stream.Mode := 3
-    Stream.Open()
-    Stream.Write(body)
-    Stream.Position := 0
-    Stream.Type := 2
-    Stream.Charset := charset
-    str := Stream.ReadText()
-    Stream.Close()
-    return str
-}
-
 class Zmq_send2plug
 {
     __New() 
@@ -435,4 +407,16 @@ saveconfig(config, json_path)
     str := JSON.stringify(config, 4)
     FileDelete(json_path)
     FileAppend(str, json_path, 'UTF-8')
+}
+
+EncodeDecodeURI(str, encode := true, component := true) {
+    ; Adapted from teadrinker: https://www.autohotkey.com/boards/viewtopic.php?p=372134#p372134
+    static Doc, JS
+    if !IsSet(Doc) {
+        Doc := ComObject("htmlfile")
+        Doc.write('<meta http-equiv="X-UA-Compatible" content="IE=9">')
+        JS := Doc.parentWindow
+        ( Doc.documentMode < 9 && JS.execScript() )
+    }
+    Return JS.%( (encode ? "en" : "de") . "codeURI" . (component ? "Component" : "") )%(str)
 }
