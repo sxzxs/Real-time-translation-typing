@@ -37,8 +37,9 @@ main()
 sound_play(*)
 {
     data := A_Clipboard
+    is_hz := RegExMatch(data, "\p{Han}")
     data := EncodeDecodeURI(data)
-    if(g_is_ime_char)
+    if(!is_hz)
     {
         PlayMedia('https://dict.youdao.com/dictvoice?audio=' data)
         logger.info('https://dict.youdao.com/dictvoice?audio=' data)

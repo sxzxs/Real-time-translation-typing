@@ -83,7 +83,8 @@ exe_command(*)
             rtn := youdaocd(text)
         else if(cd = 'baidu')
         {
-            if(is_ime_char)
+            is_hz := RegExMatch(text, "\p{Han}")
+            if(is_hz)
                 rtn := baiducd(text, g_config['BaiduFanyiAPPID'], g_config['BaiduFanyiAPPSEC'], 'zh', 'en')
             else
                 rtn := baiducd(text, g_config['BaiduFanyiAPPID'], g_config['BaiduFanyiAPPSEC'], 'en', 'zh')
