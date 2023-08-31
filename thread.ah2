@@ -63,7 +63,7 @@ exe_command(*)
     }
     try
     {
-        ToolTip('[' api ']', x, y - 28, 1)
+        ;ToolTip('[' api ']', x, y - 28, 1)
         switch (api)
         {
             case "youdao":
