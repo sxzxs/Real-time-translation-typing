@@ -17,6 +17,8 @@ main()
     global g_thread_plug_cd := Worker('#include ' A_scriptdir '/thread.ah2', string(g_sender2plug.ctx))
     g_json_path := A_ScriptDir . "/config/setting.json"
     global g_is_ime_char := false
+    global g_cursor_x := 0
+    global g_cursor_y := 0
 
     global g_config := Map()
     loadconfig(&g_config, g_json_path)
@@ -88,15 +90,21 @@ tab_send(*)
             break
         }
     }
+    ToolTip('[' g_current_api ']', g_cursor_x, g_cursor_y - 28, 1)
     g_eb.draw('tab')
 }
 
 fanyi(*)
 {
+    global g_cursor_x
+    global g_cursor_y
     if(!(hwnd := GetCaretPosEx(&x, &y, &w, &h)))
     {
         MouseGetPos(&x, &y)
     }
+    g_cursor_x := x
+    g_cursor_y := y
+    ToolTip('[' g_current_api ']', g_cursor_x, g_cursor_y - 28, 1)
     g_eb.show(x, y)
     g_eb.draw()
 }
@@ -158,6 +166,7 @@ class Edit_box
         this.draw('esc')
         this.ui.gui.hide()
         g_is_ime_char := false
+        ToolTip()
     }
     move(x, y, w := 0, h := 0)
     {
