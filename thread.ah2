@@ -10,7 +10,7 @@
 CoordMode('ToolTip', 'Screen')
 Persistent
 
-logger.is_log_open := true
+logger.is_log_open := false
 logger.is_use_editor := true
 
 g_config := Map()
@@ -48,7 +48,7 @@ exe_command(*)
         y := o['y']
         is_ime_char := o['is_ime_char']
         text := o['text']
-        is_tab := o['is_tab']
+        api := o['api']
     }
     catch as e
     {
@@ -63,41 +63,38 @@ exe_command(*)
     }
     try
     {
-        cd := ''
-        if(g_config['cd'] = 'youdao')
-            cd := 'youdao'
-        else if(g_config['cd'] = 'baidu')
-            cd := 'baidu'
-        else
-            return
-
-        if(is_tab)
+        ToolTip('[' api ']', x, y - 28, 1)
+        switch (api)
         {
-            if(cd = 'youdao')
-                cd := 'baidu'
-            else
-                cd := 'youdao'
-        }
+            case "youdao":
+            {
+                rtn := youdaocd(text)
+            }
+            case "baidu":
+            {
+                is_hz := RegExMatch(text, "\p{Han}")
+                if(is_hz)
+                    rtn := baiducd(text, g_config['baidu']['BaiduFanyiAPPID'], g_config['baidu']['BaiduFanyiAPPSEC'], 'zh', 'en')
+                else
+                    rtn := baiducd(text, g_config['baidu']['BaiduFanyiAPPID'], g_config['baidu']['BaiduFanyiAPPSEC'], 'en', 'zh')
+            }
+            case "ali":
+            {
 
-        if(cd = 'youdao')
-            rtn := youdaocd(text)
-        else if(cd = 'baidu')
-        {
-            is_hz := RegExMatch(text, "\p{Han}")
-            if(is_hz)
-                rtn := baiducd(text, g_config['BaiduFanyiAPPID'], g_config['BaiduFanyiAPPSEC'], 'zh', 'en')
-            else
-                rtn := baiducd(text, g_config['BaiduFanyiAPPID'], g_config['BaiduFanyiAPPSEC'], 'en', 'zh')
+            }
+            case 'google':
+            {
+                rtn := googlecd(text)
+            }
+            default:
         }
-        else 
-            return
         logger.info(rtn)
     }
     catch as e
     {
         return
     }
-    g_tt_hwnd := ToolTip(rtn, x, y - 28, 1)
+    g_tt_hwnd := ToolTip('[' api '] ' rtn, x, y - 28, 1)
     A_Clipboard := rtn
 	Critical 'off'
 }
@@ -199,4 +196,47 @@ MD5(Data, Size:=0)
 	Loop 16
 		MD5 .= Format("{:02X}", NumGet(MD5_CTX, 87+A_Index, "UChar"))
 	return MD5
+}
+
+googlecd(keyword, time_out := 2)
+{
+    ;zh-TW en
+    from := 'en'
+    to := 'zh-CN'
+    if(RegExMatch(keyword, "\p{Han}"))
+    {
+        from := 'zh-CN'
+        to := 'en'
+    }
+    ;https://translate.googleapis.com/translate_a/single?dt=t&client=gtx&sl=%from_lang%&tl=%to_lang%&dj=1&ie=UTF-8&oe=UTF-8&q=%text_selected%
+    URL := Format('https://translate.googleapis.com/translate_a/single?dt=t&client=gtx&sl={1}&tl={2}&dj=1&ie=UTF-8&oe=UTF-8&q={3}', from, to, EncodeDecodeURI(keyword))
+	WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
+	WebRequest.Open("GET", url, true)
+    WebRequest.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36")
+	WebRequest.Send()
+    try
+    {
+        WebRequest.WaitForResponse(time_out)
+	    result := WebRequest.ResponseText
+        o := JSON.parse(result)
+        result := o['sentences'][1]['trans']
+    }
+    catch as e
+    {
+        result := ''
+    }
+	return result
+}
+
+
+EncodeDecodeURI(str, encode := true, component := true) {
+    ; Adapted from teadrinker: https://www.autohotkey.com/boards/viewtopic.php?p=372134#p372134
+    static Doc, JS
+    if !IsSet(Doc) {
+        Doc := ComObject("htmlfile")
+        Doc.write('<meta http-equiv="X-UA-Compatible" content="IE=9">')
+        JS := Doc.parentWindow
+        ( Doc.documentMode < 9 && JS.execScript() )
+    }
+    Return JS.%( (encode ? "en" : "de") . "codeURI" . (component ? "Component" : "") )%(str)
 }

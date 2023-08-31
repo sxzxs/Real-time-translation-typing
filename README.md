@@ -22,13 +22,24 @@
 ## 翻译API
 通过配置文件来配置 `/config/setting.json`
 
+* 选择主翻译API
+```
+    "cd" : "youdao"   ## 目前支持 "baidu", "google"(需要科学上网，且美国节点), "youdao"
+```
+备选API需配置 `is_open` 为 1
+
 * 有道词典
 ```
 {
-    "cd" : "youdao",
-    "BaiduFanyiAPPID" : "",
-    "BaiduFanyiAPPSEC": "",
-    "is_baidu_real_time_translate" : 0
+    "is_open" : 1
+}
+```
+
+* 谷歌
+```
+{
+    "is_open" : 0,
+    "is_real_time_translate" : 0
 }
 ```
 
@@ -38,14 +49,15 @@ http://api.fanyi.baidu.com/api/trans/product/index
 
 ```
 {
-    "cd" : "baidu",
+    "is_open" : 0,
     "BaiduFanyiAPPID" : "xxxxx",
     "BaiduFanyiAPPSEC": "xxxxx",
-    "is_baidu_real_time_translate" : 0
+    "is_real_time_translate" : 0
 }
 ```
 因为百度使用次数有限额，因此通过  `is_baidu_real_time_translate` 来配置是否实时触发翻译
 当配置 `0` 时，需要输入 `空格` 键 主动翻译, 建议输入最后键入`空格`
 
 * 切换
-按 `tab`键，切换结果为另外一个, `空格键`切换回来
+
+按 `tab`键，从配置和打开的API切换

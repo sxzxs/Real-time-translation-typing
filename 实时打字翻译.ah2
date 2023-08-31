@@ -3,6 +3,8 @@
 #include <zmq>
 #include <log>
 
+logger.is_log_open := false
+
 CoordMode('ToolTip', 'Screen')
 OnMessage(WM_CHAR := 0x0102, ON_MESSAGE_WM_CHAR)
 OnMessage(WM_IME_CHAR := 0x0286, ON_MESSAGE_WM_IME_CHAR)
@@ -18,6 +20,7 @@ main()
 
     global g_config := Map()
     loadconfig(&g_config, g_json_path)
+    global g_current_api := g_config['cd']
 
     g_eb.hide()
 	loop
@@ -62,6 +65,29 @@ send_command(p*)
 
 tab_send(*)
 {
+    global g_current_api
+    ;找到当前index
+    current_index := 1
+    for k,v in g_config['all_api']
+    {
+        if(v = g_current_api)
+        {
+            current_index := k
+            break
+        }
+    }
+    loop g_config['all_api'].Length
+    {
+        current_index++
+        if(current_index > g_config['all_api'].Length)
+            current_index := 1
+        api := g_config['all_api'][current_index]
+        if(g_config[api]['is_open'] && g_current_api != api)
+        {
+            g_current_api := api
+            break
+        }
+    }
     g_eb.draw('tab')
 }
 
@@ -74,7 +100,7 @@ fanyi(*)
     g_eb.show(x, y)
     g_eb.draw()
 }
-cd(text, x := 0, y := 0, is_tab := false)
+cd(text, x := 0, y := 0)
 {
     try
     {
@@ -83,7 +109,7 @@ cd(text, x := 0, y := 0, is_tab := false)
         send2cd_param['y'] := y
         send2cd_param['text'] := text
         send2cd_param['is_ime_char'] := g_is_ime_char
-        send2cd_param['is_tab'] := is_tab
+        send2cd_param['api'] := g_current_api
         str := JSON.stringify(send2cd_param)
         g_sender2plug.pub(str)
     }
@@ -139,6 +165,7 @@ class Edit_box
     }
     draw(flag := 0)
     {
+        global g_current_api
         ui := this.ui
         ui.gui.GetPos(&x, &y, &w, &h)
         logger.info(x, y, w, h)
@@ -154,16 +181,27 @@ class Edit_box
             logger.info(this.text)
             ui.EndDraw()
         }
-        if(g_config['cd'] != 'baidu' 
-            || g_config['is_baidu_real_time_translate'] = 1 
-            || SubStr(this.text, -1) == A_Space
-            || flag = 'esc'
-            || flag = 'tab')
+        if(flag = 'esc' || flag = 'tab' || SubStr(this.text, -1) == A_Space)
         {
-            if(flag = 'tab')
-                cd(this.text, x, y, true)
-            else
+            cd(this.text, x, y)
+            return
+        }
+        switch(g_current_api)
+        {
+            case 'baidu':
+            {
+                if(g_config['baidu']['is_real_time_translate'] = 1)
+                    cd(this.text, x, y)
+            }
+            case 'youdao':
+            {
                 cd(this.text, x, y)
+            }
+            case 'ali':
+            {
+                if(g_config['ali']['is_real_time_translate'] = 1)
+                    cd(this.text, x, y)
+            }
         }
     }
     clear()

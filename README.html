@@ -286,13 +286,22 @@ pre[data-line] .line-highlight[data-end]:after {
 
 <p>&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6765;&#x914D;&#x7F6E; <code>/config/setting.json</code></p>
 <ul>
+<li>&#x9009;&#x62E9;&#x4E3B;&#x7FFB;&#x8BD1;API</li>
+</ul>
+<pre data-role="codeBlock" data-info class="language-"><code>    &quot;cd&quot; : &quot;youdao&quot;   ## &#x76EE;&#x524D;&#x652F;&#x6301; &quot;baidu&quot;, &quot;google&quot;(&#x9700;&#x8981;&#x79D1;&#x5B66;&#x4E0A;&#x7F51;&#xFF0C;&#x4E14;&#x7F8E;&#x56FD;&#x8282;&#x70B9;), &quot;youdao&quot;
+</code></pre><p>&#x5907;&#x9009;API&#x9700;&#x914D;&#x7F6E; <code>is_open</code> &#x4E3A; 1</p>
+<ul>
 <li>&#x6709;&#x9053;&#x8BCD;&#x5178;</li>
 </ul>
 <pre data-role="codeBlock" data-info class="language-"><code>{
-    &quot;cd&quot; : &quot;youdao&quot;,
-    &quot;BaiduFanyiAPPID&quot; : &quot;&quot;,
-    &quot;BaiduFanyiAPPSEC&quot;: &quot;&quot;,
-    &quot;is_baidu_real_time_translate&quot; : 0
+    &quot;is_open&quot; : 1
+}
+</code></pre><ul>
+<li>&#x8C37;&#x6B4C;</li>
+</ul>
+<pre data-role="codeBlock" data-info class="language-"><code>{
+    &quot;is_open&quot; : 0,
+    &quot;is_real_time_translate&quot; : 0
 }
 </code></pre><ul>
 <li>&#x767E;&#x5EA6;&#x7FFB;&#x8BD1;<br>
@@ -300,17 +309,17 @@ pre[data-line] .line-highlight[data-end]:after {
 <a href="http://api.fanyi.baidu.com/api/trans/product/index">http://api.fanyi.baidu.com/api/trans/product/index</a></li>
 </ul>
 <pre data-role="codeBlock" data-info class="language-"><code>{
-    &quot;cd&quot; : &quot;baidu&quot;,
+    &quot;is_open&quot; : 0,
     &quot;BaiduFanyiAPPID&quot; : &quot;xxxxx&quot;,
     &quot;BaiduFanyiAPPSEC&quot;: &quot;xxxxx&quot;,
-    &quot;is_baidu_real_time_translate&quot; : 0
+    &quot;is_real_time_translate&quot; : 0
 }
 </code></pre><p>&#x56E0;&#x4E3A;&#x767E;&#x5EA6;&#x4F7F;&#x7528;&#x6B21;&#x6570;&#x6709;&#x9650;&#x989D;&#xFF0C;&#x56E0;&#x6B64;&#x901A;&#x8FC7;  <code>is_baidu_real_time_translate</code> &#x6765;&#x914D;&#x7F6E;&#x662F;&#x5426;&#x5B9E;&#x65F6;&#x89E6;&#x53D1;&#x7FFB;&#x8BD1;<br>
 &#x5F53;&#x914D;&#x7F6E; <code>0</code> &#x65F6;&#xFF0C;&#x9700;&#x8981;&#x8F93;&#x5165; <code>&#x7A7A;&#x683C;</code> &#x952E; &#x4E3B;&#x52A8;&#x7FFB;&#x8BD1;, &#x5EFA;&#x8BAE;&#x8F93;&#x5165;&#x6700;&#x540E;&#x952E;&#x5165;<code>&#x7A7A;&#x683C;</code></p>
 <ul>
-<li>&#x5207;&#x6362;<br>
-&#x6309; <code>tab</code>&#x952E;&#xFF0C;&#x5207;&#x6362;&#x7ED3;&#x679C;&#x4E3A;&#x53E6;&#x5916;&#x4E00;&#x4E2A;, <code>&#x7A7A;&#x683C;&#x952E;</code>&#x5207;&#x6362;&#x56DE;&#x6765;</li>
+<li>&#x5207;&#x6362;</li>
 </ul>
+<p>&#x6309; <code>tab</code>&#x952E;&#xFF0C;&#x4ECE;&#x914D;&#x7F6E;&#x548C;&#x6253;&#x5F00;&#x7684;API&#x5207;&#x6362;</p>
 
       </div>
       
