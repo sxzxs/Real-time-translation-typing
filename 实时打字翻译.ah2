@@ -202,6 +202,11 @@ class Edit_box
                 if(g_config['baidu']['is_real_time_translate'] = 1)
                     cd(this.text, x, y)
             }
+            case 'google':
+            {
+                if(g_config['google']['is_real_time_translate'] = 1)
+                    cd(this.text, x, y)
+            }
             case 'youdao':
             {
                 cd(this.text, x, y)
