@@ -288,14 +288,24 @@ pre[data-line] .line-highlight[data-end]:after {
 <ul>
 <li>&#x9009;&#x62E9;&#x4E3B;&#x7FFB;&#x8BD1;API</li>
 </ul>
-<pre data-role="codeBlock" data-info class="language-"><code>    &quot;cd&quot; : &quot;youdao&quot;   ## &#x76EE;&#x524D;&#x652F;&#x6301; &quot;baidu&quot;, &quot;google&quot;(&#x9700;&#x8981;&#x79D1;&#x5B66;&#x4E0A;&#x7F51;&#xFF0C;&#x4E14;&#x7F8E;&#x56FD;&#x8282;&#x70B9;), &quot;youdao&quot;
-</code></pre><p>&#x5907;&#x9009;API&#x9700;&#x914D;&#x7F6E; <code>is_open</code> &#x4E3A; 1</p>
+<pre data-role="codeBlock" data-info class="language-"><code>    &quot;cd&quot; : &quot;youdao&quot;   ## &#x76EE;&#x524D;&#x652F;&#x6301; &quot;baidu&quot;, &quot;google&quot;(&#x9700;&#x8981;&#x79D1;&#x5B66;&#x4E0A;&#x7F51;&#xFF0C;&#x4E14;&#x7F8E;&#x56FD;&#x8282;&#x70B9;), &quot;youdao&quot;, &quot;sougou&quot;
+</code></pre><p>&#x5907;&#x9009;API&#x9700;&#x914D;&#x7F6E; <code>is_open</code> &#x4E3A; 1<br>
+&#x5982;&#x679C;&#x6CA1;&#x53CD;&#x5E94;&#xFF0C;&#x53EF;&#x80FD;api&#x5728;&#x7EF4;&#x62A4;&#xFF0C;&#x53EF;&#x4EE5;&#x5207;&#x6362;&#x53E6;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;<br>
+&#x76EE;&#x524D;&#x514D;&#x8D39;&#x7684;&#x662F;&#x6709;&#x9053;&#x548C;&#x641C;&#x72D7;&#x548C;&#x8C37;&#x6B4C;&#xFF0C; &#x6709;&#x9053;&#x662F;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x7684;api&#x901F;&#x5EA6;&#x6BD4;&#x8F83;&#x5FEB;&#xFF0C;&#x641C;&#x72D7;&#x662F;&#x722C;&#x866B;(&#x901F;&#x5EA6;&#x8F83;&#x6162;),&#x8C37;&#x6B4C;&#x9700;&#x8981;&#x7FFB;&#x5899;<br>
+&#x767E;&#x5EA6;&#x7ED3;&#x679C;&#x5F88;&#x4E0D;&#x9519;&#xFF0C;&#x4F46;&#x662F;&#x9700;&#x8981;&#x6CE8;&#x518C;(&#x514D;&#x8D39;100w&#x5B57;&#x7B26;/&#x6708;)</p>
 <ul>
 <li>&#x6709;&#x9053;&#x8BCD;&#x5178;</li>
 </ul>
-<pre data-role="codeBlock" data-info class="language-"><code>{
+<pre data-role="codeBlock" data-info class="language-"><code>http://fanyi.youdao.com/translate?smartresult=dict&amp;smartresult=rule&amp;smartresult=ugc&amp;sessionFrom=null
+{
     &quot;is_open&quot; : 1
 }
+</code></pre><pre data-role="codeBlock" data-info class="language-"><code>https://fanyi.sogou.com/text?keyword=%E4%BD%A0%E5%A5%BD&amp;transfrom=auto&amp;transto=en&amp;model=general
+    &quot;sougou&quot; :
+    {
+        &quot;is_open&quot; : 1,
+        &quot;is_real_time_translate&quot; : 1
+    },
 </code></pre><ul>
 <li>&#x8C37;&#x6B4C;</li>
 </ul>

@@ -207,6 +207,11 @@ class Edit_box
                 if(g_config['google']['is_real_time_translate'] = 1)
                     cd(this.text, x, y)
             }
+            case 'sougou':
+            {
+                if(g_config['sougou']['is_real_time_translate'] = 1)
+                    cd(this.text, x, y)
+            }
             case 'youdao':
             {
                 cd(this.text, x, y)

@@ -86,6 +86,10 @@ exe_command(*)
             {
                 rtn := googlecd(text)
             }
+            case 'sougou':
+            {
+                rtn := sougoucd(text)
+            }
             default:
         }
         logger.info(rtn)
@@ -239,4 +243,42 @@ EncodeDecodeURI(str, encode := true, component := true) {
         ( Doc.documentMode < 9 && JS.execScript() )
     }
     Return JS.%( (encode ? "en" : "de") . "codeURI" . (component ? "Component" : "") )%(str)
+}
+
+sougoucd(keyword, time_out := 2)
+{
+    from := 'auto'
+    to := 'en'
+    ;https://fanyi.sogou.com/text?keyword=%E4%BD%A0%E5%A5%BD&transfrom=auto&transto=en&model=general
+    URL := Format('https://fanyi.sogou.com/text?keyword={1}&transfrom={2}&transto={3}&model=general', EncodeDecodeURI(keyword), from, to)
+	WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
+	WebRequest.Open("GET", url, true)
+    WebRequest.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
+	WebRequest.Send()
+    try
+    {
+        WebRequest.WaitForResponse(time_out)
+	    result := WebRequest.ResponseText
+        A_Clipboard := result
+
+        Doc := ComObject("htmlfile")
+        Doc.write(result)
+        if((rtn := Doc.querySelector('#trans-result > span.trans-sentence')) != '')
+        {
+            result := rtn.innerHTML
+        }
+        else if((rtn := Doc.querySelector('#trans-result')) != '')
+        {
+            result := rtn.innerHTML
+        }
+        else
+        {
+            result := ''
+        }
+    }
+    catch as e
+    {
+        result := ''
+    }
+	return result
 }

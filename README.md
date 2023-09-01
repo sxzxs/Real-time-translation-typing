@@ -24,15 +24,29 @@
 
 * 选择主翻译API
 ```
-    "cd" : "youdao"   ## 目前支持 "baidu", "google"(需要科学上网，且美国节点), "youdao"
+    "cd" : "youdao"   ## 目前支持 "baidu", "google"(需要科学上网，且美国节点), "youdao", "sougou"
 ```
 备选API需配置 `is_open` 为 1
+如果没反应，可能api在维护，可以切换另一个使用
+目前免费的是有道和搜狗和谷歌， 有道是直接调用的api速度比较快，搜狗是爬虫(速度较慢),谷歌需要翻墙
+百度结果很不错，但是需要注册(免费100w字符/月)
+
 
 * 有道词典
 ```
+http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null
 {
     "is_open" : 1
 }
+```
+
+```
+https://fanyi.sogou.com/text?keyword=%E4%BD%A0%E5%A5%BD&transfrom=auto&transto=en&model=general
+    "sougou" :
+    {
+        "is_open" : 1,
+        "is_real_time_translate" : 1
+    },
 ```
 
 * 谷歌
