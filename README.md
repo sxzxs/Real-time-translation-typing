@@ -17,9 +17,16 @@
 * CTRL ENTER: 输出原始文本
 * ESC: 退出
 * TAB: 切换另一个翻译API
-* 空格: 切换回默认翻译API
+* CTRL F7: 网页版调试
 
-## 翻译API
+## 网页调用版本(推荐)
+目前支持 搜狗、百度、有道
+|环境|版本|
+|-|-|
+|系统|需要**win10**或者安装 **[webview2 runtime](https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/3c9f7ac6-fb0a-4eb7-b1fd-44c57613a3f5/MicrosoftEdgeWebView2RuntimeInstallerX64.exe)**|
+|源码运行需要 ahk 版本| [autohotkey v2H](https://github.com/thqby/AutoHotkey_H/releases)|
+
+## API版本(不推荐)
 通过配置文件来配置 `/config/setting.json`
 
 * 选择主翻译API
