@@ -90,7 +90,7 @@ tab_send(*)
     global g_current_api
     ;找到当前index
     current_index := 1
-    all_api := ['baidu', 'youdao', 'sougou']
+    all_api := ['baidu', 'youdao', 'sougou', 'deepl']
     for k,v in all_api
     {
         if(v = g_current_api)
@@ -161,6 +161,10 @@ class Edit_box
         bd.set_out_change_call_back(this.on_change.bind(this))
         bd.set_input_box('我来自百度')
 
+        this.dp := dp := Deepl_web_cd()
+        dp.set_out_change_call_back(this.on_change.bind(this))
+        dp.set_input_box('我来自Deepl')
+
         this.show_status := false
     }
     debug()
@@ -168,6 +172,7 @@ class Edit_box
         this.bd.show()
         this.yd.show()
         this.sg.show()
+        this.dp.show()
     }
     on_change(cd ,text)
     {
@@ -233,6 +238,10 @@ class Edit_box
                 {
                     this.yd.set_input_box('')
                 }
+                case 'deepl':
+                {
+                    this.dp.set_input_box('')
+                }
             }
         }
         switch(g_current_api)
@@ -248,6 +257,10 @@ class Edit_box
             case 'youdao':
             {
                 this.yd.set_input_box(input_text)
+            }
+            case 'deepl':
+            {
+                this.dp.set_input_box(input_text)
             }
         }
     }
