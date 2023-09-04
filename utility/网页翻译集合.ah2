@@ -12,7 +12,7 @@ class Deepl_web_cd extends Web_cd
         (
             {          
                 const editor = document.querySelector("#panelTranslateText > div.lmt__sides_container > div.lmt__sides_wrapper > section.lmt__side_container.lmt__side_container--source > div.lmt__textarea_container > div.lmt__inner_textarea_container > d-textarea");
-                const inputbox = document.querySelector("#panelTranslateText > div.lmt__sides_container > div.lmt__sides_wrapper > section.lmt__side_container.lmt__side_container--source > div.lmt__textarea_container > div.lmt__inner_textarea_container > d-textarea > div > p");
+                const inputbox = document.querySelector("#panelTranslateText > div.lmt__sides_container > div.lmt__sides_wrapper > section.lmt__side_container.lmt__side_container--source > div.lmt__textarea_container > div.lmt__inner_textarea_container > d-textarea > div");
                 inputbox.textContent = "{1}";
                 setTimeout(() => {
                     editor.dispatchEvent(new InputEvent("input"));
