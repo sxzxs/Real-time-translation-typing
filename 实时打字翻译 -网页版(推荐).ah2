@@ -16,6 +16,9 @@ OnMessage(WM_IME_CHAR := 0x0286, ON_MESSAGE_WM_IME_CHAR)
 main()
 main()
 {
+
+    btt('加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
+
     global g_eb := Edit_box(0, 0, 1000, 100)
     global g_is_ime_char := false
     global g_cursor_x := 0
@@ -24,14 +27,18 @@ main()
 
     g_eb.hide()
 
-    Hotkey('!y', (key) => fanyi())
-    Hotkey('~Esc', (key) => g_eb.hide())
-    Hotkey('^f7', (key) => g_eb.debug())
+    Hotkey('!y', (key) => fanyi()) ;打开翻译器
+    Hotkey('^!y', (key) => fanyi_clipboard()) ;翻译粘贴板文本
+    Hotkey('~Esc', (key) => g_eb.hide()) ;退出
+    Hotkey('^f7', (key) => g_eb.debug()) ;调试
 	HotIfWinActive("ahk_id " g_eb.ui.hwnd)
-        Hotkey("!enter", sound_play)
-        Hotkey("enter", (key) => send_command('translate'))
-        Hotkey("^enter", (key) => send_command('Primitive'))
-        Hotkey("~tab", tab_send)
+        Hotkey("!enter", sound_play) ;发音
+        Hotkey("enter", (key) => send_command('translate')) ;发送文本
+        Hotkey("^enter", (key) => send_command('Primitive')) ;发送原始文本
+        Hotkey("~tab", tab_send) ;切换API
+        Hotkey("^v", paste) ;粘贴
+        Hotkey("^c", copy) ;复制
+        Hotkey("^!enter", serpentine_naming) ;驼峰命名
     HotIf()
 
     help_text := '
@@ -47,6 +54,41 @@ main()
     btt(help_text,0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
     ;SetTimer OwnzztooltipEnd ,-5000
 }
+
+fanyi_clipboard(*)
+{
+    fanyi()
+    g_eb.text := A_Clipboard
+    g_eb.draw()
+}
+
+
+serpentine_naming(*)
+{
+    old := A_Clipboard
+    cd_str := g_eb.fanyi_result
+    g_eb.hide()
+    cd_str := StrLower(cd_str)
+    cd_str := RegExReplace(cd_str, 'i)\s+', '_')
+    cd_str := RegExReplace(cd_str, "[^A-Za-z0-9_]", "")
+
+    A_Clipboard := cd_str
+    SendInput('{RShift Down}{Insert}{RShift Up}')
+    Sleep(200)
+    A_Clipboard := old
+}
+
+copy(*)
+{
+    A_Clipboard := g_eb.fanyi_result
+}
+
+paste(*)
+{
+    g_eb.text := A_Clipboard
+    g_eb.draw()
+}
+
 sound_play(*)
 {
     data := g_eb.fanyi_result

@@ -1,9 +1,9 @@
 ﻿{
-    "cd" : "youdao",
+    "cd" : "sougou",
     "all_api" : ["baidu", "youdao", "sougou", "google"],
     "youdao":
     {
-        "is_open" : 1
+        "is_open" : 0
     },
     "baidu" :
     {
