@@ -33,6 +33,7 @@ main()
     Hotkey('!y', (key) => fanyi())
     Hotkey('~Esc', (key) => g_eb.hide())
 	HotIfWinActive("ahk_id " g_eb.ui.hwnd)
+        Hotkey("~!Tab", (key) => g_eb.hide())
         Hotkey("!enter", sound_play)
         Hotkey("enter", (key) => send_command('translate'))
         Hotkey("^enter", (key) => send_command('Primitive'))
@@ -104,7 +105,10 @@ fanyi(*)
     }
     g_cursor_x := x
     g_cursor_y := y
-    ToolTip('[' g_current_api ']', g_cursor_x, g_cursor_y - 28, 1)
+    tp := ''
+    if(g_config[g_current_api]['is_real_time_translate'] != 1)
+        tp := '非实时配置，需要空格触发, setting.json配置'
+    ToolTip('[' g_current_api ']' tp, g_cursor_x, g_cursor_y - 28, 1)
     g_eb.show(x, y)
     g_eb.draw()
 }
@@ -256,6 +260,7 @@ class Edit_box
         ImmReleaseContext(this.ui.Hwnd, himc)
         logger.info(num2utf16(char))
         this.push(num2utf16(char))
+        ToolTip()
         this.draw()
     }
 }

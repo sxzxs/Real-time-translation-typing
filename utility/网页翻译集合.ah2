@@ -262,7 +262,12 @@ class Web_cd
         this.exec_sync := SyncHandler((args) => OutputDebug(StrGet(args[2])))
         this.wv.CoreWebView2.add_NavigationCompleted(this.nav_sync)
         this.wv.CoreWebView2.Navigate(this.url )
-        this.nav_sync.wait()
+        btt(ui_name ' 加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
+        if(!this.nav_sync.wait(10000))
+        {
+            btt(ui_name ' 加载失败',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
+            sleep(200)
+        }
         this.wv.CoreWebView2.AddHostObjectToScript('ahk', {str:'str from ahk',func:this.on_result_change.Bind(this)})
         this.set_change_event()
         this.ui.OnEvent('Size', this.gui_size.Bind(this))

@@ -52,7 +52,6 @@ main()
         ESC : 退出
     )'
     btt(help_text,0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
-    ;SetTimer OwnzztooltipEnd ,-5000
 }
 
 fanyi_clipboard(*)
@@ -146,6 +145,7 @@ tab_send(*)
         current_index := 1
     g_current_api := all_api[current_index]
     logger.info('=========' g_current_api)
+    btt('[' g_current_api ']',g_cursor_x, g_cursor_y - 45,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
     g_eb.draw('tab')
 }
 
@@ -160,6 +160,7 @@ fanyi(*)
     g_cursor_x := x
     g_cursor_y := y
     g_eb.show(x, y)
+    btt('[' g_current_api ']',g_cursor_x, g_cursor_y - 45,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
     g_eb.draw()
 }
 

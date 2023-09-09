@@ -1300,11 +1300,26 @@ class SyncHandler extends WebView2.Handler {
 		this.obj.cb := cb
 		super.__New(this.obj, 3)
 	}
-	wait() {
+	wait(time_out := -1) {
 		o := this.obj
-		while !o.status
-			Sleep(10)
+		time := 0
+		if(time_out == -1)
+		{
+			while !o.status
+				Sleep(10)
+		}
+		else
+		{
+			While(o.status == 0 && time < time_out)
+			{
+				Sleep(10)
+				time += 10
+			}
+		}
 		o.status := 0, Sleep(100)
+		if(time >= time_out)
+			return false
+		return true
 	}
 
 	class CompletedEventHandler {
