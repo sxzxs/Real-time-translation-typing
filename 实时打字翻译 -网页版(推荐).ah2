@@ -16,14 +16,14 @@ OnMessage(WM_IME_CHAR := 0x0286, ON_MESSAGE_WM_IME_CHAR)
 main()
 main()
 {
-
     btt('加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
-
+    global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
     global g_eb := Edit_box(0, 0, 1000, 100)
     global g_is_ime_char := false
     global g_cursor_x := 0
     global g_cursor_y := 0
     global g_current_api := 'youdao'
+    global g_window_hwnd := 0
 
     g_eb.hide()
 
@@ -48,7 +48,7 @@ main()
         ENTER : 发送结果
         CTRL ENTER : 发送原始文本
         ALT ENTER : 发音
-        CTRL F7 : 调试
+        CTRL F7 : 展示当前API网页原始内容
         ESC : 退出
     )'
     btt(help_text,0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
@@ -64,8 +64,16 @@ fanyi_clipboard(*)
 
 serpentine_naming(*)
 {
+    global g_window_hwnd
     old := A_Clipboard
     cd_str := g_eb.fanyi_result
+    if(g_window_hwnd)
+    {
+        try
+        {
+            WinActivate(g_window_hwnd)
+        }
+    }
     g_eb.hide()
     cd_str := StrLower(cd_str)
     cd_str := RegExReplace(cd_str, 'i)\s+', '_')
@@ -129,10 +137,10 @@ send_command(p*)
 tab_send(*)
 {
     global g_current_api
+    global g_all_api
     ;找到当前index
     current_index := 1
-    all_api := ['baidu', 'youdao', 'sougou', 'deepl']
-    for k,v in all_api
+    for k,v in g_all_api
     {
         if(v = g_current_api)
         {
@@ -141,9 +149,9 @@ tab_send(*)
         }
     }
     current_index++
-    if(current_index > all_api.Length)
+    if(current_index > g_all_api.Length)
         current_index := 1
-    g_current_api := all_api[current_index]
+    g_current_api := g_all_api[current_index]
     logger.info('=========' g_current_api)
     btt('[' g_current_api ']',g_cursor_x, g_cursor_y - 45,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
     g_eb.draw('tab')
@@ -153,10 +161,9 @@ fanyi(*)
 {
     global g_cursor_x
     global g_cursor_y
-    if(!(hwnd := GetCaretPosEx(&x, &y, &w, &h)))
-    {
+    global g_window_hwnd
+    if(!(g_window_hwnd := GetCaretPosEx(&x, &y, &w, &h)))
         MouseGetPos(&x, &y)
-    }
     g_cursor_x := x
     g_cursor_y := y
     g_eb.show(x, y)
@@ -192,30 +199,70 @@ class Edit_box
         this.text := ''
         this.fanyi_result := ''
 
-        this.sg := sg := Sougou_web_cd()
-        sg.set_out_change_call_back(this.on_change.bind(this))
-        sg.set_input_box('我来自搜狗')
+        if(this.has_key('sougou'))
+        {
+            this.sg := sg := Sougou_web_cd()
+            sg.set_out_change_call_back(this.on_change.bind(this))
+            sg.set_input_box('我来自搜狗')
+        }
 
-        this.yd := yd := Youdao_web_cd()
-        yd.set_out_change_call_back(this.on_change.bind(this))
-        yd.set_input_box('我来自有道')
+        if(this.has_key('youdao'))
+        {
+            this.yd := yd := Youdao_web_cd()
+            yd.set_out_change_call_back(this.on_change.bind(this))
+            yd.set_input_box('我来自有道')
+        }
 
-        this.bd := bd := Baidu_web_cd()
-        bd.set_out_change_call_back(this.on_change.bind(this))
-        bd.set_input_box('我来自百度')
+        if(this.has_key('baidu'))
+        {
+            this.bd := bd := Baidu_web_cd()
+            bd.set_out_change_call_back(this.on_change.bind(this))
+            bd.set_input_box('我来自百度')
+        }
 
-        this.dp := dp := Deepl_web_cd()
-        dp.set_out_change_call_back(this.on_change.bind(this))
-        dp.set_input_box('我来自Deepl')
+        if(this.has_key('deepl'))
+        {
+            this.dp := dp := Deepl_web_cd()
+            dp.set_out_change_call_back(this.on_change.bind(this))
+            dp.set_input_box('我来自Deepl')
+        }
 
         this.show_status := false
     }
+    has_key(key)
+    {
+        global g_all_api
+        for k,v in g_all_api
+        {
+            if(v = key)
+                return true
+        }
+        return false
+    }
     debug()
     {
-        this.bd.show()
-        this.yd.show()
-        this.sg.show()
-        this.dp.show()
+        try
+        {
+            switch(g_current_api)
+            {
+                case 'baidu':
+                {
+                    this.bd.show(,, 1000, 700)
+                }
+                case 'sougou':
+                {
+                    this.sg.show(,, 1000, 700)
+                }
+                case 'youdao':
+                {
+                    this.yd.show(,, 1000, 700)
+                }
+                case 'deepl':
+                {
+                    this.dp.show(,, 1000, 700)
+                }
+            }
+        }
     }
     on_change(cd ,text)
     {
