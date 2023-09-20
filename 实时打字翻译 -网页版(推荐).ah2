@@ -78,9 +78,9 @@ serpentine_naming(*)
         try
         {
             WinActivate(g_window_hwnd)
+            WinWaitActive(g_window_hwnd,, 1)
         }
     }
-    WinWaitActive(g_window_hwnd,, 1)
     SendInput('{RShift Down}{Insert}{RShift Up}')
     Sleep(200)
     A_Clipboard := old
@@ -131,9 +131,9 @@ send_command(p*)
             try
             {
                 WinActivate(g_window_hwnd)
+                WinWaitActive(g_window_hwnd,, 1)
             }
         }
-        WinWaitActive(g_window_hwnd,, 1)
         SendInput('{RShift Down}{Insert}{RShift Up}')
         sleep(200)
         A_Clipboard := old
