@@ -67,6 +67,12 @@ serpentine_naming(*)
     global g_window_hwnd
     old := A_Clipboard
     cd_str := g_eb.fanyi_result
+    g_eb.hide()
+    cd_str := StrLower(cd_str)
+    cd_str := RegExReplace(cd_str, 'i)\s+', '_')
+    cd_str := RegExReplace(cd_str, "[^A-Za-z0-9_]", "")
+    A_Clipboard := cd_str
+
     if(g_window_hwnd)
     {
         try
@@ -74,12 +80,7 @@ serpentine_naming(*)
             WinActivate(g_window_hwnd)
         }
     }
-    g_eb.hide()
-    cd_str := StrLower(cd_str)
-    cd_str := RegExReplace(cd_str, 'i)\s+', '_')
-    cd_str := RegExReplace(cd_str, "[^A-Za-z0-9_]", "")
-
-    A_Clipboard := cd_str
+    WinWaitActive(g_window_hwnd,, 1)
     SendInput('{RShift Down}{Insert}{RShift Up}')
     Sleep(200)
     A_Clipboard := old
@@ -115,6 +116,7 @@ sound_play(*)
 
 send_command(p*)
 {
+    global g_window_hwnd
     try
     {
         data := g_eb.text
@@ -124,6 +126,14 @@ send_command(p*)
             A_Clipboard := data
         else
             A_Clipboard := g_eb.fanyi_result
+        if(g_window_hwnd)
+        {
+            try
+            {
+                WinActivate(g_window_hwnd)
+            }
+        }
+        WinWaitActive(g_window_hwnd,, 1)
         SendInput('{RShift Down}{Insert}{RShift Up}')
         sleep(200)
         A_Clipboard := old
