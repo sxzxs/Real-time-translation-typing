@@ -8,8 +8,10 @@
 #include ./utility/网页翻译集合.ah2
 
 logger.is_log_open := false
+logger.is_use_editor := true
 
 CoordMode('ToolTip', 'Screen')
+CoordMode('Mouse', 'Screen')
 OnMessage(WM_CHAR := 0x0102, ON_MESSAGE_WM_CHAR)
 OnMessage(WM_IME_CHAR := 0x0286, ON_MESSAGE_WM_IME_CHAR)
 
@@ -173,7 +175,10 @@ fanyi(*)
     global g_cursor_y
     global g_window_hwnd
     if(!(g_window_hwnd := GetCaretPosEx(&x, &y, &w, &h)))
+    {
+        g_window_hwnd := WinExist("A")
         MouseGetPos(&x, &y)
+    }
     g_cursor_x := x
     g_cursor_y := y
     g_eb.show(x, y)
