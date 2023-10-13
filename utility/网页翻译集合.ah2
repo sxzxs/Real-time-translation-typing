@@ -150,9 +150,9 @@ class Youdao_web_cd extends Web_cd
             records.forEach(function(record) {
                 try
                 {
-                    console.log(o.textContent);
+                    console.log(document.querySelector("#js_fanyi_output_resultOutput").textContent);
                     obj = window.chrome.webview.hostObjects.ahk;
-                    obj.func(o.textContent);
+                    obj.func(document.querySelector("#js_fanyi_output_resultOutput").textContent);
                 }
                 catch
                 {
@@ -269,6 +269,7 @@ class Web_cd
             sleep(200)
         }
         this.wv.CoreWebView2.AddHostObjectToScript('ahk', {str:'str from ahk',func:this.on_result_change.Bind(this)})
+        Sleep(1000)
         this.set_change_event()
         this.ui.OnEvent('Size', this.gui_size.Bind(this))
         this.ui.Hide()

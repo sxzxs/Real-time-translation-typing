@@ -24,7 +24,7 @@ main()
     global g_is_ime_char := false
     global g_cursor_x := 0
     global g_cursor_y := 0
-    global g_current_api := 'youdao'
+    global g_current_api := 'sougou'
     global g_window_hwnd := 0
 
     g_eb.hide()
