@@ -11,8 +11,8 @@ class Deepl_web_cd extends Web_cd
         input_js :='
         (
             {          
-                const editor = document.querySelector("#panelTranslateText > div.lmt__sides_container > div.lmt__sides_wrapper > section.lmt__side_container.lmt__side_container--source > div.lmt__textarea_container > div.lmt__inner_textarea_container > d-textarea");
-                const inputbox = document.querySelector("#panelTranslateText > div.lmt__sides_container > div.lmt__sides_wrapper > section.lmt__side_container.lmt__side_container--source > div.lmt__textarea_container > div.lmt__inner_textarea_container > d-textarea > div");
+                const editor = document.querySelector("#headlessui-tabs-panel-7 > div > div.border-dark-7.border.bg-white.shadow-sm.xl\\:rounded-lg > section > div > div.rounded-bl-inherit.rounded-br-inherit.grid.grid-cols-1.grid-rows-\\[auto_auto\\].min-\\[768px\\]\\:grid-cols-\\[1fr_auto_1fr\\].min-\\[768px\\]\\:grid-rows-\\[1fr\\].TextTranslatorLayout-module--bothareas--wXSVy > div.rounded-bl-inherit.relative.z-\\[1\\].min-h-\\[240px\\].min-w-0.md\\:min-h-\\[clamp\\(250px\\,50vh\\,557px\\)\\] > section > div > div.relative.flex-1 > d-textarea");
+                const inputbox = document.querySelector("#headlessui-tabs-panel-7 > div > div.border-dark-7.border.bg-white.shadow-sm.xl\\:rounded-lg > section > div > div.rounded-bl-inherit.rounded-br-inherit.grid.grid-cols-1.grid-rows-\\[auto_auto\\].min-\\[768px\\]\\:grid-cols-\\[1fr_auto_1fr\\].min-\\[768px\\]\\:grid-rows-\\[1fr\\].TextTranslatorLayout-module--bothareas--wXSVy > div.rounded-bl-inherit.relative.z-\\[1\\].min-h-\\[240px\\].min-w-0.md\\:min-h-\\[clamp\\(250px\\,50vh\\,557px\\)\\] > section > div > div.relative.flex-1 > d-textarea > div");
                 inputbox.textContent = "{1}";
                 setTimeout(() => {
                     editor.dispatchEvent(new InputEvent("input"));
@@ -23,7 +23,7 @@ class Deepl_web_cd extends Web_cd
         (
             {
                 
-                o = document.querySelector('#panelTranslateText > div.lmt__sides_container > div.lmt__sides_wrapper > section.lmt__side_container.lmt__side_container--target > div.lmt__textarea_container > div.lmt__inner_textarea_container > d-textarea')
+                o = document.querySelector('#headlessui-tabs-panel-7 > div > div.border-dark-7.border.bg-white.shadow-sm.xl\\:rounded-lg > section > div > div.rounded-bl-inherit.rounded-br-inherit.grid.grid-cols-1.grid-rows-\\[auto_auto\\].min-\\[768px\\]\\:grid-cols-\\[1fr_auto_1fr\\].min-\\[768px\\]\\:grid-rows-\\[1fr\\].TextTranslatorLayout-module--bothareas--wXSVy > div.rounded-br-inherit.relative.z-\\[1\\].min-h-\\[240px\\].min-w-0.md\\:min-h-\\[clamp\\(250px\\,50vh\\,557px\\)\\].max-\\[768px\\]\\:min-h-\\[375px\\] > section > div.relative.flex.flex-1.flex-col > d-textarea')
                 function callback3(records) {
                 records.forEach(function(record) {
                     try
