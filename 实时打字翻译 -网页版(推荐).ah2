@@ -40,7 +40,8 @@ main()
         Hotkey("~tab", tab_send) ;切换API
         Hotkey("^v", paste) ;粘贴
         Hotkey("^c", copy) ;复制
-        Hotkey("^!enter", serpentine_naming) ;驼峰命名
+        Hotkey("+!enter", (key) => serpentine_naming('hump')) ;驼峰命名
+        Hotkey("^!enter", (key) => serpentine_naming('snake')) ;snake命名
     HotIf()
 
     help_text := '
@@ -64,7 +65,7 @@ fanyi_clipboard(*)
 }
 
 
-serpentine_naming(*)
+serpentine_naming(key := 'snake')
 {
     global g_window_hwnd
     old := A_Clipboard
@@ -73,8 +74,17 @@ serpentine_naming(*)
     cd_str := StrLower(cd_str)
     cd_str := RegExReplace(cd_str, 'i)\s+', '_')
     cd_str := RegExReplace(cd_str, "[^A-Za-z0-9_]", "")
-    A_Clipboard := cd_str
+    cd_str := Trim(cd_str, '_')
 
+    if(key == 'hump')
+    {
+        ar := StrSplit(cd_str, '_')
+        cd_str := ''
+        for k,v in ar
+            cd_str .= StrTitle(v)
+    }
+
+    A_Clipboard := cd_str
     if(g_window_hwnd)
     {
         try
