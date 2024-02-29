@@ -7,6 +7,7 @@
 #Requires AutoHotkey v2.0
 #include <log>
 #include <zmq>
+#include <WinHttpRequest>
 CoordMode('ToolTip', 'Screen')
 Persistent
 
@@ -78,6 +79,10 @@ exe_command(*)
                 else
                     rtn := baiducd(text, g_config['baidu']['BaiduFanyiAPPID'], g_config['baidu']['BaiduFanyiAPPSEC'], 'en', 'zh')
             }
+            case "edge":
+            {
+                rtn := edgecd(text)
+            }
             case "ali":
             {
 
@@ -112,6 +117,19 @@ youdaocd(text)
     js := JSON.parse(str)
     return js['translateResult'][1][1]['tgt']
 }
+
+edgecd(text)
+{
+    data := JSON.stringify([{Text: text}])
+    whr := WinHttpRequest('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0')
+    authCode := whr.request('https://edge.microsoft.com/translate/auth')
+    r := whr.request('https://api-edge.cognitive.microsofttranslator.com/translate?from=&to=en&api-version=3.0&includeSentenceLength=true',
+        'POST', data, { authorization: 'Bearer ' authCode,
+            %'Content-Type'%: "application/json", })
+    r := JSON.parse(r)
+    return r[1]['translations'][1]['text']
+}
+
 ;发送接收数据
 WinHttp(Httpurl, Httpmode := "GET", Httppostdata := "")
 {

@@ -1,9 +1,14 @@
 ﻿{
-    "cd" : "sougou",
-    "all_api" : ["baidu", "youdao", "sougou", "google"],
+    "cd" : "edge",
+    "all_api" : ["baidu", "youdao", "sougou", "google", "edge"],
+    "edge":
+    {
+        "is_open" : 1,
+        "is_real_time_translate" : 1
+    },
     "youdao":
     {
-        "is_open" : 1
+        "is_open" : 0
     },
     "baidu" :
     {

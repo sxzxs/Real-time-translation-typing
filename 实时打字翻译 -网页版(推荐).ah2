@@ -95,7 +95,7 @@ serpentine_naming(key := 'snake')
     }
     SendInput('{RShift Down}{Insert}{RShift Up}')
     Sleep(200)
-    A_Clipboard := old
+    ; A_Clipboard := old
 }
 
 copy(*)

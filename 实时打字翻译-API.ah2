@@ -225,6 +225,12 @@ class Edit_box
                 if(g_config['ali']['is_real_time_translate'] = 1)
                     cd(this.text, x, y)
             }
+            case 'edge':
+            {
+                if(g_config['edge']['is_real_time_translate'] = 1)
+                    cd(this.text, x, y)
+
+            }
         }
     }
     clear()
