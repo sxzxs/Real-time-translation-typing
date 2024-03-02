@@ -120,10 +120,12 @@ youdaocd(text)
 
 edgecd(text)
 {
+
+    is_hz := RegExMatch(text, "\p{Han}")
     data := JSON.stringify([{Text: text}])
-    whr := WinHttpRequest('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0')
-    authCode := whr.request('https://edge.microsoft.com/translate/auth')
-    r := whr.request('https://api-edge.cognitive.microsofttranslator.com/translate?from=&to=en&api-version=3.0&includeSentenceLength=true',
+    static whr := WinHttpRequest('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0')
+    static authCode := whr.request('https://edge.microsoft.com/translate/auth')
+    r := whr.request('https://api-edge.cognitive.microsofttranslator.com/translate?' (is_hz ? 'from=zh&to=en' : 'from=en&to=zh') '&api-version=3.0&includeSentenceLength=true',
         'POST', data, { authorization: 'Bearer ' authCode,
             %'Content-Type'%: "application/json", })
     r := JSON.parse(r)
