@@ -53,16 +53,15 @@
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
         final_transcript += event.results[i][0].transcript;
-        obj.func(final_transcript);
       } else {
         interim_transcript += event.results[i][0].transcript;
-        obj.func(interim_transcript);
       }
     }
 
 
     document.querySelector("#final").innerHTML = final_transcript;
     document.querySelector("#interim").innerHTML = interim_transcript;
+    obj.func(final_transcript + interim_transcript);
   };
 
   document.querySelector("#start").onclick = () => {
