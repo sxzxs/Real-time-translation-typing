@@ -6,6 +6,7 @@
 #include <ComVar>
 #include <btt>
 #include ./utility/网页翻译集合.ah2
+#include ./utility/sound.ah2
 
 logger.is_log_open := false
 logger.is_use_editor := true
@@ -21,6 +22,8 @@ main()
     btt('加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
     global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
     global g_eb := Edit_box(0, 0, 1000, 100)
+    global g_sound := SoundINput(A_ScriptDir '\lib\语音.html')
+    g_sound.set_out_change_call_back(sound_call_back)
     global g_is_ime_char := false
     global g_cursor_x := 0
     global g_cursor_y := 0
@@ -29,6 +32,7 @@ main()
 
     g_eb.hide()
 
+    Hotkey('!i', (key) => input_sound()) ;打开翻译器
     Hotkey('!y', (key) => fanyi()) ;打开翻译器
     Hotkey('^!y', (key) => fanyi_clipboard()) ;翻译粘贴板文本
     Hotkey('~Esc', (key) => g_eb.hide()) ;退出
@@ -47,7 +51,8 @@ main()
     help_text := '
     (
         欢迎使用实时打字翻译工具
-        ALT Y : 打开
+        ALT Y : 打开(键盘输入)
+        ALT I : 打开(语音输入)
         ENTER : 发送结果
         CTRL ENTER : 发送原始文本
         ALT ENTER : 发音
@@ -55,6 +60,13 @@ main()
         ESC : 退出
     )'
     btt(help_text,0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
+}
+
+sound_call_back(name, text)
+{
+    logger.info(name, text)
+    g_eb.set_text(text)
+    g_eb.draw()
 }
 
 fanyi_clipboard(*)
@@ -179,6 +191,32 @@ tab_send(*)
     g_eb.draw('tab')
 }
 
+input_sound(*)
+{
+    global g_cursor_x
+    global g_cursor_y
+    global g_window_hwnd
+    if(!(g_window_hwnd := GetCaretPosEx(&x, &y, &w, &h)))
+    {
+        g_window_hwnd := WinExist("A")
+        MouseGetPos(&x, &y)
+    }
+    g_cursor_x := x
+    g_cursor_y := y
+    g_eb.show(x, y)
+    btt('[' g_current_api ']',g_cursor_x, g_cursor_y - 45,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
+
+    js := "
+    (
+        document.querySelector("#final").innerHTML = '';
+        speechRecognition.start();
+    )"
+    logger.info(js)
+    g_sound.start()
+
+    g_eb.draw()
+}
+
 fanyi(*)
 {
     global g_cursor_x
@@ -287,6 +325,7 @@ class Edit_box
                     this.dp.show(,, 1000, 700)
                 }
             }
+            g_sound.show()
         }
     }
     on_change(cd ,text)
@@ -312,6 +351,7 @@ class Edit_box
         this.ui.gui.hide()
         g_is_ime_char := false
         this.show_status := false
+        g_sound.stop()
         OwnzztooltipEnd()
     }
     move(x, y, w := 0, h := 0)
@@ -389,6 +429,10 @@ class Edit_box
             this.text := SubStr(this.text, 1, -1)
         else
             this.text .= char
+    }
+    set_text(text)
+    {
+        this.text := text
     }
     set_imm(char)
     {

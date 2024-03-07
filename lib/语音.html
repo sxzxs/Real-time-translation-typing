@@ -1,0 +1,168 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+  <link href="./Speech To Text_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" /> 
+  <title>语音转文字</title> 
+ </head> 
+ <body class="container pt-5 bg-dark"> 
+  <div class="mt-4" id="div_language"> 
+   <h2 class="mb-3 text-light">语言选择</h2> 
+   <select class="form-select bg-secondary text-light" id="select_language" onchange="updateCountry()"><option value="0">Afrikaans</option><option value="1">Bahasa Indonesia</option><option value="2">Bahasa Melayu</option><option value="3">Catal&agrave;</option><option value="4">Čeština</option><option value="5">Deutsch</option><option value="6">English</option><option value="7">Espa&ntilde;ol</option><option value="8">Euskara</option><option value="9">Fran&ccedil;ais</option><option value="10">Galego</option><option value="11">Hrvatski</option><option value="12">IsiZulu</option><option value="13">&Iacute;slenska</option><option value="14">Italiano</option><option value="15">Magyar</option><option value="16">Nederlands</option><option value="17">Norsk bokm&aring;l</option><option value="18">Polski</option><option value="19">Portugu&ecirc;s</option><option value="20">Rom&acirc;nă</option><option value="21">Slovenčina</option><option value="22">Suomi</option><option value="23">Svenska</option><option value="24">T&uuml;rk&ccedil;e</option><option value="25">български</option><option value="26">Pусский</option><option value="27">Српски</option><option value="28">한국어</option><option value="29">中文</option><option value="30">日本語</option><option value="31">Lingua latīna</option></select> 
+   <select class="form-select bg-secondary text-light mt-2" id="select_dialect" style="visibility: visible;"><option value="cmn-Hans-CN">普通话 (中国大陆)</option><option value="cmn-Hans-HK">普通话 (香港)</option><option value="cmn-Hant-TW">中文 (台灣)</option><option value="yue-Hant-HK">粵語 (香港)</option></select> 
+  </div> 
+  <h2 class="mt-4 text-light">识别结果</h2> 
+  <div class="p-3" style="border: 1px solid gray; height: 300px; border-radius: 8px;"> 
+   <span id="status" class="lead mt-3 text-light" style="display: none;">识别中 ...</span> 
+   <span id="final" class="text-light"></span> 
+   <span id="interim" class="text-secondary"></span> 
+  </div> 
+  <div class="mt-4" style="float:right;"> 
+   <button class="btn btn-success" id="start">开始</button> 
+   <button class="btn btn-danger" id="stop">停止</button> 
+  </div> 
+  <script>
+// if ("webkitSpeechRecognition" in window) 
+// {
+  let speechRecognition = new webkitSpeechRecognition();
+  let final_transcript = "";
+
+  speechRecognition.continuous = true;
+  speechRecognition.interimResults = true;
+  speechRecognition.lang = document.querySelector("#select_dialect").value;
+
+  speechRecognition.onstart = () => {
+    document.querySelector("#status").style.display = "block";
+  };
+  speechRecognition.onerror = () => {
+    document.querySelector("#status").style.display = "none";
+    console.log("Speech Recognition Error");
+  };
+  speechRecognition.onend = () => {
+    document.querySelector("#status").style.display = "none";
+    console.log("Speech Recognition Ended");
+  };
+
+  speechRecognition.onresult = (event) => {
+    let interim_transcript = "";
+
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        final_transcript += event.results[i][0].transcript;
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+      }
+    }
+
+    obj = window.chrome.webview.hostObjects.ahk;
+    obj.func(final_transcript);
+
+    document.querySelector("#final").innerHTML = final_transcript;
+    document.querySelector("#interim").innerHTML = interim_transcript;
+  };
+
+  document.querySelector("#start").onclick = () => {
+    speechRecognition.start();
+  };
+  document.querySelector("#stop").onclick = () => {
+    speechRecognition.stop();
+  };
+// } 
+// else 
+//{
+//  console.log("Speech Recognition Not Available");
+//}
+
+  </script> 
+  <script>
+// https://www.jianshu.com/p/536017f3bf05
+    var langs =
+[['Afrikaans',       ['af-ZA']],
+ ['Bahasa Indonesia',['id-ID']],
+ ['Bahasa Melayu',   ['ms-MY']],
+ ['Català',          ['ca-ES']],
+ ['Čeština',         ['cs-CZ']],
+ ['Deutsch',         ['de-DE']],
+ ['English',         ['en-AU', 'Australia'],
+                     ['en-CA', 'Canada'],
+                     ['en-IN', 'India'],
+                     ['en-NZ', 'New Zealand'],
+                     ['en-ZA', 'South Africa'],
+                     ['en-GB', 'United Kingdom'],
+                     ['en-US', 'United States']],
+ ['Español',         ['es-AR', 'Argentina'],
+                     ['es-BO', 'Bolivia'],
+                     ['es-CL', 'Chile'],
+                     ['es-CO', 'Colombia'],
+                     ['es-CR', 'Costa Rica'],
+                     ['es-EC', 'Ecuador'],
+                     ['es-SV', 'El Salvador'],
+                     ['es-ES', 'España'],
+                     ['es-US', 'Estados Unidos'],
+                     ['es-GT', 'Guatemala'],
+                     ['es-HN', 'Honduras'],
+                     ['es-MX', 'México'],
+                     ['es-NI', 'Nicaragua'],
+                     ['es-PA', 'Panamá'],
+                     ['es-PY', 'Paraguay'],
+                     ['es-PE', 'Perú'],
+                     ['es-PR', 'Puerto Rico'],
+                     ['es-DO', 'República Dominicana'],
+                     ['es-UY', 'Uruguay'],
+                     ['es-VE', 'Venezuela']],
+ ['Euskara',         ['eu-ES']],
+ ['Français',        ['fr-FR']],
+ ['Galego',          ['gl-ES']],
+ ['Hrvatski',        ['hr_HR']],
+ ['IsiZulu',         ['zu-ZA']],
+ ['Íslenska',        ['is-IS']],
+ ['Italiano',        ['it-IT', 'Italia'],
+                     ['it-CH', 'Svizzera']],
+ ['Magyar',          ['hu-HU']],
+ ['Nederlands',      ['nl-NL']],
+ ['Norsk bokmål',    ['nb-NO']],
+ ['Polski',          ['pl-PL']],
+ ['Português',       ['pt-BR', 'Brasil'],
+                     ['pt-PT', 'Portugal']],
+ ['Română',          ['ro-RO']],
+ ['Slovenčina',      ['sk-SK']],
+ ['Suomi',           ['fi-FI']],
+ ['Svenska',         ['sv-SE']],
+ ['Türkçe',          ['tr-TR']],
+ ['български',       ['bg-BG']],
+ ['Pусский',         ['ru-RU']],
+ ['Српски',          ['sr-RS']],
+ ['한국어',            ['ko-KR']],
+ ['中文',             ['cmn-Hans-CN', '普通话 (中国大陆)'],
+                     ['cmn-Hans-HK', '普通话 (香港)'],
+                     ['cmn-Hant-TW', '中文 (台灣)'],
+                     ['yue-Hant-HK', '粵語 (香港)']],
+ ['日本語',           ['ja-JP']],
+ ['Lingua latīna',   ['la']]];
+
+let select_language = document.querySelector('#select_language');
+let select_dialect = document.querySelector('#select_dialect');
+
+for (var i = 0; i < langs.length; i++) {
+  select_language.options[i] = new Option(langs[i][0], i);
+}
+
+select_language.selectedIndex = 29;
+updateCountry();
+select_dialect.selectedIndex = 0;
+
+function updateCountry() {
+  for (var i = select_dialect.options.length - 1; i >= 0; i--) {
+    select_dialect.remove(i);
+  }
+  var list = langs[select_language.selectedIndex];
+  for (var i = 1; i < list.length; i++) {
+    select_dialect.options.add(new Option(list[i][1], list[i][0]));
+  }
+  select_dialect.style.visibility = list[1].length == 1 ? 'hidden' : 'visible';
+}
+  </script> 
+ </body>
+</html>
