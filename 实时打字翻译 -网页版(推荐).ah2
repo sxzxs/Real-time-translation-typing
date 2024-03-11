@@ -167,11 +167,11 @@ send_command(p*)
 
         if(WinActive('ahk_class RiotWindowClass'))
         {
-            SendInput("+{Enter}")
+            SendInput("{Enter}")
             Sleep(200)
             SendCn(data)
             Sleep(400)
-            SendInput("+{Enter}")
+            SendInput("{Enter}")
         }
         else
             SendInput('{RShift Down}{Insert}{RShift Up}')
