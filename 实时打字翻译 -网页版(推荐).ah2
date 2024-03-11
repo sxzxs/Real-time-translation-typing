@@ -20,9 +20,11 @@ main()
 main()
 {
     btt('加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
-    global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
+    ;global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
+    global g_all_api := ['sougou']
     global g_eb := Edit_box(0, 0, 1000, 100)
     global g_sound := SoundINput(A_ScriptDir '\lib\语音.html')
+    global g_is_sound_mode := false
     g_sound.set_out_change_call_back(sound_call_back)
     global g_is_ime_char := false
     global g_cursor_x := 0
@@ -32,12 +34,16 @@ main()
 
     g_eb.hide()
 
+	HotIfWinExist("ahk_class RiotWindowClass")
+        Hotkey('*XButton1', (key) => input_sound()) ;打开翻译器
+        Hotkey('*XButton2', (key) => send_command('Primitive')) ;打开翻译器
+    HotIf()
     Hotkey('!i', (key) => input_sound()) ;打开翻译器
     Hotkey('!y', (key) => fanyi()) ;打开翻译器
     Hotkey('^!y', (key) => fanyi_clipboard()) ;翻译粘贴板文本
-    Hotkey('~Esc', (key) => g_eb.hide()) ;退出
     Hotkey('^f7', (key) => g_eb.debug()) ;调试
-	HotIfWinActive("ahk_id " g_eb.ui.hwnd)
+    Hotkey('~Esc', (key) => g_eb.hide()) ;退出
+	HotIfWinExist("ahk_id " g_eb.ui.hwnd)
         Hotkey("!enter", sound_play) ;发音
         Hotkey("enter", (key) => send_command('translate')) ;发送文本
         Hotkey("^enter", (key) => send_command('Primitive')) ;发送原始文本
@@ -158,7 +164,17 @@ send_command(p*)
                 WinWaitActive(g_window_hwnd,, 1)
             }
         }
-        SendInput('{RShift Down}{Insert}{RShift Up}')
+
+        if(WinActive('ahk_class RiotWindowClass'))
+        {
+            SendInput("+{Enter}")
+            Sleep(200)
+            SendCn(data)
+            Sleep(400)
+            SendInput("+{Enter}")
+        }
+        else
+            SendInput('{RShift Down}{Insert}{RShift Up}')
         sleep(200)
         A_Clipboard := old
     }
@@ -196,13 +212,23 @@ input_sound(*)
     global g_cursor_x
     global g_cursor_y
     global g_window_hwnd
-    if(!(g_window_hwnd := GetCaretPosEx(&x, &y, &w, &h)))
+    global g_is_sound_mode
+
+    g_is_sound_mode := true
+    
+    if(WinActive('ahk_class RiotWindowClass'))
+        x := A_ScreenWidth / 2, y:= A_ScreenHeight / 2
+    else
     {
-        g_window_hwnd := WinExist("A")
-        MouseGetPos(&x, &y)
+        if(!(g_window_hwnd := GetCaretPosEx(&x, &y, &w, &h)))
+        {
+            g_window_hwnd := WinExist("A")
+            MouseGetPos(&x, &y)
+        }
     }
-    g_cursor_x := x
-    g_cursor_y := y
+
+    g_cursor_x := Integer(x)
+    g_cursor_y := Integer(y)
     g_eb.show(x, y)
     btt('[' g_current_api ']',g_cursor_x, g_cursor_y - 45,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
 
@@ -211,7 +237,6 @@ input_sound(*)
         document.querySelector("#final").innerHTML = '';
         speechRecognition.start();
     )"
-    logger.info(js)
     g_sound.start()
 
     g_eb.draw()
@@ -258,7 +283,7 @@ class Edit_box
         this.y := 0
         this.w := w
         this.h := h
-        this.ui := Direct2DRender(x, y, w, h,,, false)
+        this.ui := Direct2DRender(x, y, w, h,,, true)
         this.text := ''
         this.fanyi_result := ''
 
@@ -341,17 +366,23 @@ class Edit_box
     }
     show(x := 0, y := 0)
     {
-        this.ui.gui.show('x' x ' y' y)
+        if(g_is_sound_mode)
+            this.ui.gui.show('x' x ' y' y ' NA')
+        else
+            this.ui.gui.show('x' x ' y' y)
         this.show_status := true
     }
     hide()
     {
+        global g_is_sound_mode
         global g_is_ime_char
         this.clear()
         this.ui.gui.hide()
         g_is_ime_char := false
         this.show_status := false
-        g_sound.stop()
+        if(g_is_sound_mode)
+            g_sound.stop()
+        g_is_sound_mode := false
         OwnzztooltipEnd()
     }
     move(x, y, w := 0, h := 0)
@@ -653,4 +684,14 @@ EncodeDecodeURI(str, encode := true, component := true) {
         ( Doc.documentMode < 9 && JS.execScript() )
     }
     Return JS.%( (encode ? "en" : "de") . "codeURI" . (component ? "Component" : "") )%(str)
+}
+
+SendCn(str)
+{
+    charList:=StrSplit(str)
+    for key,val in charList{
+        ; 转换每个字符为{U+16进制Unicode编码}
+        out.="{U+" . Format("{:X}",ord(val)) . "}"
+    }
+    SendInput(out)
 }
