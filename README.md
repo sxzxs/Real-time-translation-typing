@@ -10,6 +10,10 @@
 ![图 1](images/cd51c69e870ecaf0daa9a115145ac94fc979770772a913fe31d85c015000d6ed.gif)  
 
 ![图 0](images/16771b28ffa808f0c407a1248a0c8a1775923cd97135443f8899d0adb9a668bc.png)  
+## 功能
+* 实时打字翻译
+* 实时语音转文字并翻译
+* LOL 语音转文字输入
 ## 快捷键
 * ALT Y: 打开
 * ALT ENTER:发音
@@ -22,6 +26,9 @@
 * CTRL + C :复制结果
 * CTRL + ALT + Y :翻译当前粘贴板
 * CTRL + V:打开状态下，输入粘贴板内容
+* ALT + I:语音输入
+* xbutton1: LOL语音输入触发
+* xbutton2: LOL语音输入结束
 
 ## 网页调用版本(推荐)
 目前支持 搜狗、百度、有道
