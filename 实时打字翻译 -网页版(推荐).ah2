@@ -20,8 +20,8 @@ main()
 main()
 {
     btt('加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
-    ;global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
-    global g_all_api := ['sougou']
+    global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
+    ;global g_all_api := ['sougou']
     global g_eb := Edit_box(0, 0, 1000, 100)
     global g_sound := SoundINput(A_ScriptDir '\lib\语音.html')
     global g_is_sound_mode := false
