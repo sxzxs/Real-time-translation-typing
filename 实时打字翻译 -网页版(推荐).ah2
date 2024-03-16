@@ -35,8 +35,9 @@ main()
     g_eb.hide()
 
 	HotIfWinExist("ahk_class RiotWindowClass")
-        Hotkey('*XButton1', (key) => input_sound()) ;打开翻译器
-        Hotkey('*XButton2', (key) => send_command('Primitive')) ;打开翻译器
+        Hotkey('XButton1', (key) => input_sound()) ;打开翻译器
+        Hotkey('XButton2', (key) => send_command('Primitive')) ;打开翻译器
+        Hotkey('!XButton2', (key) => (g_eb.text := '/all ' g_eb.text, send_command('Primitive'))) ;打开翻译器
     HotIf()
     Hotkey('!i', (key) => input_sound()) ;打开翻译器
     Hotkey('!y', (key) => fanyi()) ;打开翻译器
@@ -155,7 +156,7 @@ send_command(p*)
         if(p[1] == 'Primitive')
             A_Clipboard := data
         else
-            A_Clipboard := g_eb.fanyi_result
+            A_Clipboard := g_eb.fanyi_result, data := g_eb.fanyi_result
         if(g_window_hwnd)
         {
             try
