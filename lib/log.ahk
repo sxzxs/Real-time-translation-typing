@@ -309,8 +309,6 @@ class logger
     {
         if(this.level > this.level_error)
             Return
-        if(this.level > this.level_info)
-            Return
         this.log_strim := ""
         this.log_mode := 5
         this.log_out(para*)

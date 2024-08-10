@@ -5,23 +5,29 @@
 #include <WebView2>
 #include <ComVar>
 #include <btt>
+#include <WinHttpRequest>
 #include ./utility/网页翻译集合.ah2
 #include ./utility/sound.ah2
+#include ./utility/lol_game.ah2
 
 logger.is_log_open := false
 logger.is_use_editor := true
+logger.level := 4
 
 CoordMode('ToolTip', 'Screen')
 CoordMode('Mouse', 'Screen')
 OnMessage(WM_CHAR := 0x0102, ON_MESSAGE_WM_CHAR)
 OnMessage(WM_IME_CHAR := 0x0286, ON_MESSAGE_WM_IME_CHAR)
 
+OnMessage(0x0100, ON_WM_KEYDOWN)  ; 0x0100 是 WM_KEYDOWN
+;OnMessage(0x0101, ON_WM_KEYUP)    ; 0x0101 是 WM_KEYUP
+
 main()
 main()
 {
     btt('加载中。。。',0, 0,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
-    global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
-    ;global g_all_api := ['sougou']
+    ;global g_all_api := ['baidu', 'youdao', 'sougou', 'deepl']
+    global g_all_api := ['sougou']
     global g_eb := Edit_box(0, 0, 1000, 100)
     global g_sound := SoundINput(A_ScriptDir '\lib\语音.html')
     global g_is_sound_mode := false
@@ -31,6 +37,17 @@ main()
     global g_cursor_y := 0
     global g_current_api := 'sougou'
     global g_window_hwnd := 0
+    global g_is_input_mode := true
+    global g_lol_api := Lcu()
+
+    zmq_version(&a := 0, &b := 0, &c := 0)
+    logger.info("版本: ", a, b, c)
+    ctx := zmq_ctx_new()
+    global g_requester := zmq_socket(ctx, ZMQ_REQ)
+    ;设置超时时间 -1无限等待, 0立即返回
+    buf := Buffer(4), NumPut("int", 1000, buf)
+    zmq_setsockopt(g_requester, ZMQ_RCVTIMEO, buf, buf.Size)
+    rtn := zmq_connect(g_requester, "tcp://localhost:5555")
 
     g_eb.hide()
 
@@ -38,6 +55,9 @@ main()
         Hotkey('XButton1', (key) => input_sound()) ;打开翻译器
         Hotkey('XButton2', (key) => send_command('Primitive')) ;打开翻译器
         Hotkey('!XButton2', (key) => (g_eb.text := '/all ' g_eb.text, send_command('Primitive'))) ;打开翻译器
+        Hotkey('^XButton2', (key) => (g_eb.text := '/all ' g_eb.text, g_eb.fanyi_result := '/all ' g_eb.fanyi_result, send_command(''))) ;打开翻译器
+        Hotkey('+XButton2', (key) => send_command('')) ;打开翻译器
+        Hotkey('^f8', (key) => switch_lol_send_mode())
     HotIf()
     Hotkey('!i', (key) => input_sound()) ;打开翻译器
     Hotkey('!y', (key) => fanyi()) ;打开翻译器
@@ -144,10 +164,16 @@ sound_play(*)
         logger.info('https://api.oick.cn/txt/apiz.php?text=' data '&spd=10')
     }
 }
+switch_lol_send_mode(p*)
+{
+    global g_is_input_mode
+    g_is_input_mode := !g_is_input_mode
+}
 
 send_command(p*)
 {
     global g_window_hwnd
+    static before_txt := g_eb.text
     try
     {
         data := g_eb.text
@@ -168,15 +194,33 @@ send_command(p*)
 
         if(WinActive('ahk_class RiotWindowClass'))
         {
-            SendInput("{Enter}")
-            Sleep(200)
-            SendCn(data)
-            Sleep(400)
-            SendInput("{Enter}")
+            if(g_is_input_mode)
+            {
+                if(data == '' || data == '/all ')
+                    SendCn(data before_txt)
+                else
+                {
+                    SendCn(data)
+                    before_txt := data
+                }
+            }
+            else
+            {
+
+                if(data == '' || data == '/all ')
+                    sendcmd2game(data before_txt)
+                else
+                {
+                    sendcmd2game(data)
+                    before_txt := data
+                }
+            }
         }
         else
+        {
             SendInput('{RShift Down}{Insert}{RShift Up}')
-        sleep(200)
+            sleep(200)
+        }
         A_Clipboard := old
     }
     catch as e
@@ -218,7 +262,10 @@ input_sound(*)
     g_is_sound_mode := true
     
     if(WinActive('ahk_class RiotWindowClass'))
+    {
+        g_window_hwnd := WinExist("A")
         x := A_ScreenWidth / 2, y:= A_ScreenHeight / 2
+    }
     else
     {
         if(!(g_window_hwnd := GetCaretPosEx(&x, &y, &w, &h)))
@@ -259,6 +306,13 @@ fanyi(*)
     btt('[' g_current_api ']',g_cursor_x, g_cursor_y - 45,,OwnzztooltipStyle1,{Transparent:180,DistanceBetweenMouseXAndToolTip:-100,DistanceBetweenMouseYAndToolTip:-20})
     g_eb.draw()
 }
+ON_WM_KEYDOWN(a*)
+{
+    if(a[1] == 37)
+        g_eb.left()
+    else if(a[1] == 39)
+        g_eb.right()
+}
 
 ON_MESSAGE_WM_CHAR(a*)
 {
@@ -287,6 +341,7 @@ class Edit_box
         this.ui := Direct2DRender(x, y, w, h,,, true)
         this.text := ''
         this.fanyi_result := ''
+        this.insert_pos := 0 ;距离txt最后边的距离
 
         if(this.has_key('sougou'))
         {
@@ -398,6 +453,7 @@ class Edit_box
         logger.info(x, y, w, h)
         ;计算文字的大小
         wh := this.ui.GetTextWidthHeight(this.text, 20)
+        last_txt_wh := this.ui.GetTextWidthHeight(SubStr(this.text, -this.insert_pos), 20)
         logger.info(wh)
         this.move(x, y, wh.width + 100, wh.height + 100)
         if(ui.BeginDraw())
@@ -405,7 +461,8 @@ class Edit_box
             ui.FillRoundedRectangle(0, 0, wh.width, wh.height, 5, 5, 0xcc1E1E1E)
             ui.DrawRoundedRectangle(0, 0, wh.width, wh.height, 5, 5, 0xffff0000, 1)
             ui.DrawText(this.text, 0, 0, 20, 0xFFC9E47E)
-            logger.info(this.text)
+            ui.DrawLine(wh.width - last_txt_wh.width, 0, wh.width - last_txt_wh.width, wh.height, 0xAA00FF00)
+            logger.err(this.text)
             ui.EndDraw()
         }
         input_text := this.text
@@ -454,17 +511,42 @@ class Edit_box
     clear()
     {
         this.text := ''
+        this.insert_pos := 0
     }
     push(char)
     {
+        logger.info(char)
+        logger.err(this.text)
+        left_txt := SubStr(this.text, 1, StrLen(this.text) - this.insert_pos)
+        right_txt := SubStr(this.text, -this.insert_pos)
+        logger.err(left_txt, right_txt)
         if(char == '`b')
-            this.text := SubStr(this.text, 1, -1)
+        {
+            ;this.text := SubStr(this.text, 1, -1)
+            this.text := SubStr(left_txt, 1, -1) right_txt
+        }
         else
-            this.text .= char
+        {
+            ;this.text .= char
+            this.text := left_txt char right_txt
+        }
+        logger.err(this.text, this.insert_pos)
     }
     set_text(text)
     {
         this.text := text
+    }
+    left()
+    {
+        if(this.insert_pos < StrLen(this.text))
+            this.insert_pos += 1
+        this.draw()
+    }
+    right()
+    {
+        if(this.insert_pos > 0)
+            this.insert_pos -= 1
+        this.draw()
     }
     set_imm(char)
     {
@@ -687,12 +769,35 @@ EncodeDecodeURI(str, encode := true, component := true) {
     Return JS.%( (encode ? "en" : "de") . "codeURI" . (component ? "Component" : "") )%(str)
 }
 
+sendcmd2game(str)
+{
+    logger.info("sendcn")
+    g_lol_api.get_hero_name_and_id(&name, &id)
+	;<font color="#40C1FF">[队伍] 玩家名 (英雄名): </font><font color="#FFFFFF">喊话内容</font>	
+    if(InStr(str, '/all '))
+    {
+        str := LTrim(str, '/all ')
+        zmq_send_string(g_requester,'<font color="#ff0000">[所有人] ' id  '(' name '): </font><font color="#FFFFFF">' str '</font>')
+    }
+    else
+    {
+        zmq_send_string(g_requester,'<font color="#40C1FF">[队伍] ' id  '(' name '): </font><font color="#FFFFFF">' str '</font>')
+    }
+
+    rtn := zmq_recv_string(g_requester, &recv_string := '')
+    logger.info("sendcn ok")
+}
+
 SendCn(str)
 {
+    SendInput("{Enter}")
+    Sleep(200)
     charList:=StrSplit(str)
     for key,val in charList{
         ; 转换每个字符为{U+16进制Unicode编码}
         out.="{U+" . Format("{:X}",ord(val)) . "}"
     }
     SendInput(out)
+    Sleep(400)
+    SendInput("{Enter}")
 }
