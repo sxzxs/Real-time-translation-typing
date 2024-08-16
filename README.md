@@ -94,6 +94,7 @@ http://api.fanyi.baidu.com/api/trans/product/index
 
 按 `tab`键，从配置和打开的API切换
 ##  AI 超市 302.AI
+![alt text](https://file.302ai.cn/gpt/imgs/20240815/b01a0abae7d54f20a77fcccd5740895d.jpeg)
 **产品简介**:
 [302.AI](https://302.ai/)是一个汇集全球顶级品牌的AI超市，按需付费，零月费，零门槛使用各种类型AI。  
 **[手机号注册](https://dash.302.ai/register)**:立即获得1PTC免费测试额度。  
