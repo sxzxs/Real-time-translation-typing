@@ -36,7 +36,7 @@ jobs:
         mkdir dist/
         mkdir dist/lib
 
-        mv 实时打字翻译 -网页版(推荐).exe dist/
+        mv "实时打字翻译 -网页版(推荐).exe" dist/
         mv lib/32bit dist/lib/
         mv lib/64bit dist/lib/
         mv lib/dll_64 dist/lib/
