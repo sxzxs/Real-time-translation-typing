@@ -3,13 +3,15 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: MSBuild
+name: BuildExecutable
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches:
+      - '*'
   pull_request:
-    branches: [ "main", "dev" ]
+    branches:
+      - '*'
 
 
 env:
@@ -33,16 +35,31 @@ jobs:
 
     - name: Package
       run: |
-        mkdir dist/
-        mkdir dist/lib
+        ./build.bat
+        
+        mkdir distWeb/
+        mkdir distWeb/lib
+        cp "实时打字翻译 -网页版(推荐).exe" distWeb/
+        cp -r lib/64bit distWeb/lib/
+        cp -r lib/32bit distWeb/lib/
+        cp -r lib/dll_64 distWeb/lib/
 
-        mv "实时打字翻译 -网页版(推荐).exe" dist/
-        mv lib/32bit dist/lib/
-        mv lib/64bit dist/lib/
-        mv lib/dll_64 dist/lib/
+        mkdir distAPI/
+        cp "实时打字翻译-API.exe" distAPI/
+        cp ./thread.ah2 distAPI/ # No default value. -r./thread.ah2 is regarded as a common file
+        cp -r ./config distAPI/ # To copy the folder, you need to add the -r parameter
+        cp -r ./lib distAPI/ # For top-level directories, you need to pass "." to specify the current directory
         
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.3.1
       with:
-        name: Real-time-translation-typing
-        path: dist/
+        name: Real-time-translation-typing-WEB
+        path: distWeb/
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: Real-time-translation-typing-API
+        path: distAPI/
+
+    
