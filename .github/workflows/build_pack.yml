@@ -1,0 +1,65 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: BuildExecutable
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Package
+      run: |
+        ./build.bat
+        
+        mkdir distWeb/
+        mkdir distWeb/lib
+        cp "实时打字翻译 -网页版(推荐).exe" distWeb/
+        cp -r lib/64bit distWeb/lib/
+        cp -r lib/32bit distWeb/lib/
+        cp -r lib/dll_64 distWeb/lib/
+
+        mkdir distAPI/
+        cp "实时打字翻译-API.exe" distAPI/
+        cp ./thread.ah2 distAPI/ # No default value. -r./thread.ah2 is regarded as a common file
+        cp -r ./config distAPI/ # To copy the folder, you need to add the -r parameter
+        cp -r ./lib distAPI/ # For top-level directories, you need to pass "." to specify the current directory
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: Real-time-translation-typing-WEB
+        path: distWeb/
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: Real-time-translation-typing-API
+        path: distAPI/
+
+    
