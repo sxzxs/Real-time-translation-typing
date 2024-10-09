@@ -234,7 +234,7 @@ googlecd(keyword, time_out := 2)
     }
     ;https://translate.googleapis.com/translate_a/single?dt=t&client=gtx&sl=%from_lang%&tl=%to_lang%&dj=1&ie=UTF-8&oe=UTF-8&q=%text_selected%
     ;URL := Format('https://translate.googleapis.com/translate_a/single?dt=t&client=gtx&sl={1}&tl={2}&dj=1&ie=UTF-8&oe=UTF-8&q={3}', from, to, EncodeDecodeURI(keyword))
-    ;试一下本地接口是否可以
+    ;试一下本地接口是否可以, 测试
     URL := Format('http://localhost:8080/api/translate?content={1}', EncodeDecodeURI(keyword))
 	WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
 	WebRequest.Open("GET", url, true)
