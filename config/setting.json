@@ -25,6 +25,6 @@
     "google":
     {
         "is_open" : 1,
-        "is_real_time_translate" : 1
+        "is_real_time_translate" : 0
     }
 }
