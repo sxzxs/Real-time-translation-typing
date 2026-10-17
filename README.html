@@ -1,139 +1,338 @@
-<!DOCTYPE html><html><head>
-      <title>README</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      
-      <link rel="stylesheet" href="file:///c:\Users\Administrator\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.12\crossnote\dependencies\katex\katex.min.css">
-      
-      
-      
-      
-      
-      <style>
-      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
-/* Please visit the URL below for more information: */
-/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
-
-      </style>
-      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function () {
-    // your code here
-  });
-</script></head><body for="html-export">
-    
-    
-      <div class="crossnote markdown-preview  ">
-      
-<pre data-role="codeBlock" data-info="" class="language-text text"><code>████████╗██╗   ██╗██████╗ ██╗███╗   ██╗ ██████╗     ████████╗██████╗  █████╗ ███╗   ██╗███████╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
-╚══██╔══╝╚██╗ ██╔╝██╔══██╗██║████╗  ██║██╔════╝     ╚══██╔══╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
-   ██║    ╚████╔╝ ██████╔╝██║██╔██╗ ██║██║  ███╗       ██║   ██████╔╝███████║██╔██╗ ██║███████╗██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║
-   ██║     ╚██╔╝  ██╔═══╝ ██║██║╚██╗██║██║   ██║       ██║   ██╔══██╗██╔══██║██║╚██╗██║╚════██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
-   ██║      ██║   ██║     ██║██║ ╚████║╚██████╔╝       ██║   ██║  ██║██║  ██║██║ ╚████║███████║███████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
-   ╚═╝      ╚═╝   ╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝        ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-</code></pre><h1 id="real-time-translation-typing">Real-time-translation-typing </h1>
-<p><img src="images/cd51c69e870ecaf0daa9a115145ac94fc979770772a913fe31d85c015000d6ed.gif" alt="图 1"></p>
-<p><img src="images/16771b28ffa808f0c407a1248a0c8a1775923cd97135443f8899d0adb9a668bc.png" alt="图 0"></p>
-<h2 id="功能">功能 </h2>
-<ul>
-<li>实时打字翻译</li>
-<li>实时语音转文字并翻译</li>
-<li>LOL 语音转文字输入</li>
-</ul>
-<h2 id="快捷键">快捷键 </h2>
-<ul>
-<li>ALT Y: 打开</li>
-<li>ALT ENTER:发音</li>
-<li>ENTER: 输出翻译文本</li>
-<li>CTRL ENTER: 输出原始文本</li>
-<li>ESC: 退出</li>
-<li>TAB: 切换另一个翻译API</li>
-<li>CTRL F7: 网页版调试</li>
-</ul>
-<h4 id="网页版额外快捷键">网页版额外快捷键 </h4>
-<ul>
-<li>CTRL + C :复制结果</li>
-<li>CTRL + ALT + Y :翻译当前粘贴板</li>
-<li>CTRL + V:打开状态下，输入粘贴板内容</li>
-<li>ALT + I:语音输入</li>
-<li>xbutton1: LOL语音输入触发</li>
-<li>xbutton2: LOL语音输入结束</li>
-</ul>
-<h2 id="网页调用版本推荐">网页调用版本(推荐) </h2>
-<p>目前支持 搜狗、百度、有道</p>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>松果输入法 SongGuo · 预览版与 AHK 经典版</title>
+<!-- Local HTML companion generated from README.md with ConvertFrom-Markdown. -->
+<style>
+:root { color-scheme: light; --bg:#fff; --fg:#1f2328; --muted:#636c76; --line:#d1d9e0; --subtle:#f6f8fa; --link:#bf4b17; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:24px; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif; overflow-wrap:break-word; }
+main { max-width:1012px; margin:32px auto; padding:40px 48px; border:1px solid var(--line); border-radius:12px; }
+h1,h2,h3 { line-height:1.35; font-weight:650; }
+h1 { font-size:32px; margin:12px 0 18px; }
+h2 { font-size:24px; padding-bottom:10px; margin:32px 0 20px; border-bottom:1px solid var(--line); }
+h3 { font-size:20px; margin:28px 0 16px; }
+p,ul,ol,table,pre { margin-top:0; margin-bottom:18px; }
+a { color:var(--link); text-decoration:none; }
+a:hover { text-decoration:underline; }
+a:focus-visible,summary:focus-visible { outline:3px solid #f6a16c; outline-offset:4px; border-radius:4px; }
+img { max-width:100%; height:auto; vertical-align:middle; }
+a img { margin:4px 2px; }
+sub { color:var(--muted); font-size:12px; }
+li { margin:8px 0; }
+table { border-collapse:collapse; width:100%; display:block; overflow:auto; }
+th,td { padding:12px 16px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+th { background:var(--subtle); font-weight:650; }
+tr:nth-child(even) { background:var(--subtle); }
+code,pre { font-family:ui-monospace,SFMono-Regular,Consolas,"Microsoft YaHei",monospace; font-size:.88em; }
+code { padding:3px 5px; background:var(--subtle); border-radius:5px; }
+pre { padding:18px; background:var(--subtle); border-radius:8px; overflow:auto; }
+pre code { padding:0; }
+details { margin:12px 0; border:1px solid var(--line); border-radius:8px; padding:14px 18px; }
+summary { cursor:pointer; }
+details[open] summary { margin-bottom:18px; }
+hr { height:1px; border:0; background:var(--line); margin:38px 0; }
+@media(max-width:700px) { main { margin:0; border:0; padding:26px 20px; } h1 { font-size:27px; } body { font-size:15px; } th,td { padding:9px 11px; min-width:130px; } }
+@media(prefers-color-scheme:dark) { :root { color-scheme:dark; --bg:#0d1117; --fg:#e6edf3; --muted:#9198a1; --line:#30363d; --subtle:#161b22; --link:#f5a273; } }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+<main>
+<div align="center">
+<img src="images/songguo-logo.png" alt="松果 Logo" width="76" />
+<h1 id="songguo">松果输入法 SongGuo</h1>
+<p><strong>先把话写好，再顺手发出。</strong></p>
+<p>中文输入 · 文字暂存 · AI 写作 · 语音 · 实时翻译</p>
+<p><a href="https://github.com/sxzxs/Real-time-translation-typing/releases"><strong>下载预览版</strong></a>　 · 　<a href="https://songguo.fun/">访问官网</a>　 · 　<a href="https://github.com/sxzxs/Real-time-translation-typing/issues">反馈问题</a></p>
+</div>
+<p align="center">
+  <a href="#preview"><img src="images/tab-preview.svg" alt="TAB 01 · 松果预览版" width="260" /></a>
+  <a href="#ahk"><img src="images/tab-ahk.svg" alt="TAB 02 · AHK 经典版" width="260" /></a>
+</p>
+<p><a name="preview"></a></p>
+<h2 id="section">松果预览版</h2>
+<p>松果是这个项目现在的 Windows 桌面输入工具。从最初的实时打字翻译，扩展到中文输入、整段编辑、AI 对话和语音：在当前软件里唤起松果，先组织内容，确认后再把文字送回原来的输入框。</p>
+<p><strong>想体验现在的效果，请到 <a href="https://github.com/sxzxs/Real-time-translation-typing/releases">Releases</a> 下载松果发行包。</strong> 本仓库同时保留早期 AHK 脚本；下载仓库源码得到的是下方介绍的 AHK 实现。</p>
+<h3 id="section-1">在输入框旁，完成输入和修改</h3>
+<p align="center">
+  <img src="images/songguo-preview-light.png" alt="松果浅色界面：上方暂存会议通知，下方输入 AI 指令“改得更简洁，保留原意。”" width="880" />
+  <br />
+  <sub>预览版界面示例 · 上方组织正文，下方输入要求 · 使用本地演示文本</sub>
+</p>
 <table>
 <thead>
 <tr>
-<th>环境</th>
-<th>版本</th>
+<th>输入与编辑</th>
+<th>AI 与跨语言表达</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>系统</td>
-<td>需要<strong>win10</strong>或者安装 <strong><a href="https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/3c9f7ac6-fb0a-4eb7-b1fd-44c57613a3f5/MicrosoftEdgeWebView2RuntimeInstallerX64.exe">webview2 runtime</a></strong></td>
+<td><strong>整段暂存</strong>：先写一句或一段，修改满意后再上屏；支持撤销、重做和暂存历史。</td>
+<td><strong>AI 指令</strong>：围绕当前正文润色、改写、扩写，也可以直接提问。</td>
 </tr>
 <tr>
-<td>源码运行需要 ahk 版本</td>
-<td><a href="https://github.com/thqby/AutoHotkey_H/releases">autohotkey v2H</a></td>
+<td><strong>多种输入方案</strong>：全拼、双拼、五笔等，按自己的习惯选择。</td>
+<td><strong>实时翻译</strong>：边输入边看译文，确认后把译文送到原软件。</td>
+</tr>
+<tr>
+<td><strong>语音输入</strong>：把说出的话变成文字，再继续编辑或提交。</td>
+<td><strong>Chat 与 Agent</strong>：连续对话、附加图片；在 Agent 中使用文件搜索和可选工具。</td>
 </tr>
 </tbody>
 </table>
-<h2 id="api版本不推荐">API版本(不推荐) </h2>
-<p>通过配置文件来配置 <code>/config/setting.json</code></p>
-<ul>
-<li>选择主翻译API</li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text text"><code>    "cd" : "youdao"   ## 目前支持 "baidu", "google"(需要科学上网，且美国节点), "youdao", "sougou"
-</code></pre><p>备选API需配置 <code>is_open</code> 为 1<br>
-如果没反应，可能api在维护，可以切换另一个使用<br>
-目前免费的是有道和搜狗和谷歌， 有道是直接调用的api速度比较快，搜狗是爬虫(速度较慢),谷歌需要翻墙<br>
-百度结果很不错，但是需要注册(免费100w字符/月)</p>
-<ul>
-<li>有道词典</li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text text"><code>http://fanyi.youdao.com/translate?smartresult=dict&amp;smartresult=rule&amp;smartresult=ugc&amp;sessionFrom=null
-{
-    "is_open" : 1
+<p>AI、翻译和语音功能需在设置中配置对应的服务、模型或设备，联网与费用取决于所选服务。当前为预览版本，具体功能与更新说明以下载的发行包为准。</p>
+<details>
+<summary><b>查看深色界面</b></summary>
+<p align="center">
+  <img src="images/songguo-preview-dark.png" alt="松果深色界面中的暂存正文与 AI 指令区" width="880" />
+</p>
+</details>
+<details>
+<summary><b>查看早期预览版动图</b></summary>
+<p>以下为项目早期预览版录制，保留用于了解操作过程；名称、外观和细节可能与当前松果不同。</p>
+<p><img src="images/QQ20260418-234754.gif" alt="早期预览版操作演示一" /></p>
+<p><img src="images/QQ20260418-234905.gif" alt="早期预览版操作演示二" /></p>
+<p><img src="images/QQ20260418-234955.gif" alt="早期预览版操作演示三" /></p>
+<p><img src="images/QQ20260418-235109.gif" alt="早期预览版操作演示四" /></p>
+</details>
+<h3 id="section-2">三步开始使用</h3>
+<ol>
+<li><strong>下载并解压</strong>：打开 <a href="https://github.com/sxzxs/Real-time-translation-typing/releases">Releases</a>，在附件中选择松果 Windows 发行包，完整解压。GitHub 自动生成的 <code>Source code</code> 是仓库源码。</li>
+<li><strong>准备运行环境</strong>：首次使用运行包内的 <code>00-Install-Runtimes.bat</code>，按提示检查并安装所需运行组件。</li>
+<li><strong>开始输入</strong>：运行 <code>SongGuo.exe</code>，点一下要输入文字的位置，再按 <code>F3</code> 唤起松果。选好文字、完成当前编码后，按 <code>Enter</code> 把整段内容送回原软件。</li>
+</ol>
+<p>需要系统输入法集成时，按发行包说明运行 <code>Register-SongGuoTsf.bat</code>。完整操作说明可在程序的内置帮助中查看。</p>
+<h3 id="section-3">先记住这几个按键</h3>
+<table>
+<thead>
+<tr>
+<th>默认快捷键</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>F3</code></td>
+<td>唤起松果输入窗口</td>
+</tr>
+<tr>
+<td><code>Enter</code></td>
+<td>没有剩余编码时，提交整段正文并退出</td>
+</tr>
+<tr>
+<td><code>Ctrl + Enter</code></td>
+<td>提交正文后继续输入</td>
+</tr>
+<tr>
+<td><code>Shift + Enter</code></td>
+<td>在正文中换行</td>
+</tr>
+<tr>
+<td><code>Alt + A</code></td>
+<td>打开 AI 指令，改写正文或提问</td>
+</tr>
+<tr>
+<td><code>F4</code></td>
+<td>开始 / 停止语音输入</td>
+</tr>
+<tr>
+<td><code>Alt + Y</code></td>
+<td>进入 / 退出实时翻译</td>
+</tr>
+<tr>
+<td><code>Alt + G</code></td>
+<td>打开连续对话</td>
+</tr>
+</tbody>
+</table>
+<p>快捷键可在设置中调整。实时翻译模式下，<code>Enter</code> 提交当前译文；以上正文提交说明对应普通暂存模式。</p>
+<p align="center">
+  <a href="https://github.com/sxzxs/Real-time-translation-typing/releases"><b>获取松果预览版 →</b></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://songguo.fun/">去官网看看</a>
+</p>
+<hr />
+<p><a name="ahk"></a></p>
+<h2 id="ahk">AHK 经典版</h2>
+<p><strong>Real-time-translation-typing 的早期实现。</strong> 使用 AutoHotkey 构建悬浮输入窗口，调用翻译网页或 API，将原文或译文输入到当前软件；还包含语音转文字和 LOL 输入相关脚本。</p>
+<p>这一部分适合继续使用旧版、阅读源码，或在 AHK 脚本上修改功能。松果预览版使用 C++ 开发桌面主程序，并保留 AHK 脚本支持；下面介绍的是本仓库保留的独立 AHK 版本。</p>
+<p align="center">
+  <img src="images/cd51c69e870ecaf0daa9a115145ac94fc979770772a913fe31d85c015000d6ed.gif" alt="AHK 经典版：在编辑器中实时打字翻译" width="775" />
+  <br />
+  <sub>AHK 经典版历史演示</sub>
+</p>
+<h3 id="section-4">如何运行</h3>
+<p>保留完整仓库的目录结构，使用兼容的 <a href="https://github.com/thqby/AutoHotkey_H/releases">AutoHotkey v2H</a> 运行。网页调用版本还需要 <a href="https://developer.microsoft.com/microsoft-edge/webview2/">Microsoft Edge WebView2 Runtime</a>。</p>
+<table>
+<thead>
+<tr>
+<th>入口</th>
+<th>用途</th>
+<th>启动方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="%E5%AE%9E%E6%97%B6%E6%89%93%E5%AD%97%E7%BF%BB%E8%AF%91.ahk"><code>实时打字翻译.ahk</code></a></td>
+<td>网页调用版本，包含语音和游戏输入相关功能</td>
+<td>拖到仓库内的 <code>AutoHotkey.exe</code> 上运行</td>
+</tr>
+<tr>
+<td><a href="%E5%AE%9E%E6%97%B6%E6%89%93%E5%AD%97%E7%BF%BB%E8%AF%91-API.ah2"><code>实时打字翻译-API.ah2</code></a></td>
+<td>通过后台线程调用翻译接口</td>
+<td>配置 <code>config/setting.json</code> 后，拖到 <code>AutoHotkey.exe</code> 上运行</td>
+</tr>
+</tbody>
+</table>
+<p>也可以在仓库目录执行：</p>
+<pre><code class="language-powershell">.\AutoHotkey.exe &quot;.\实时打字翻译.ahk&quot;
+</code></pre>
+<p>网页版本当前脚本默认在搜狗与 DeepL 之间切换。第三方网页结构和接口可能变化，经典版的历史演示不代表这些服务当前均可用。</p>
+<h3 id="ahk-1">AHK 是怎样实现的</h3>
+<ol>
+<li><strong>捕获输入</strong>：AHK 注册快捷键，接收键盘与输入法消息，在光标附近显示输入窗口。</li>
+<li><strong>获取译文</strong>：网页版本用 WebView2 加载翻译页面，通过脚本填入原文、监听译文变化；API 版本通过 Worker 线程与 ZeroMQ 通信发起请求。</li>
+<li><strong>回填文字</strong>：用户确认后，把译文或原文发送回原来的软件。语音入口通过 WebView2 中的网页语音识别回传文本。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>源码位置</th>
+<th>负责的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="%E5%AE%9E%E6%97%B6%E6%89%93%E5%AD%97%E7%BF%BB%E8%AF%91.ahk"><code>实时打字翻译.ahk</code></a></td>
+<td>主入口、快捷键、输入窗口和文本提交</td>
+</tr>
+<tr>
+<td><a href="utility/%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91%E9%9B%86%E5%90%88.ah2"><code>utility/网页翻译集合.ah2</code></a></td>
+<td>翻译网页适配与 WebView2 交互</td>
+</tr>
+<tr>
+<td><a href="%E5%AE%9E%E6%97%B6%E6%89%93%E5%AD%97%E7%BF%BB%E8%AF%91-API.ah2"><code>实时打字翻译-API.ah2</code></a> · <a href="thread.ah2"><code>thread.ah2</code></a></td>
+<td>API 版本入口、配置加载与后台翻译线程</td>
+</tr>
+<tr>
+<td><a href="utility/sound.ah2"><code>utility/sound.ah2</code></a> · <a href="lib/%E8%AF%AD%E9%9F%B3.html"><code>lib/语音.html</code></a></td>
+<td>语音输入与识别结果回传</td>
+</tr>
+<tr>
+<td><a href="utility/lol_game.ah2"><code>utility/lol_game.ah2</code></a></td>
+<td>LOL 场景的输入辅助</td>
+</tr>
+</tbody>
+</table>
+<details>
+<summary><b>AHK 经典版快捷键</b></summary>
+<p>以下为网页版本的快捷键；API 版本支持其中的基础翻译操作。</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Alt + Y</code></td>
+<td>打开翻译输入窗口</td>
+</tr>
+<tr>
+<td><code>Enter</code></td>
+<td>输出译文</td>
+</tr>
+<tr>
+<td><code>Ctrl + Enter</code></td>
+<td>输出原文</td>
+</tr>
+<tr>
+<td><code>Alt + Enter</code></td>
+<td>发音</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>隐藏输入窗口</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>切换翻译服务</td>
+</tr>
+<tr>
+<td><code>Ctrl + Alt + Y</code></td>
+<td>翻译剪贴板内容</td>
+</tr>
+<tr>
+<td><code>Ctrl + C</code> / <code>Ctrl + V</code></td>
+<td>在打开的窗口中复制 / 粘贴</td>
+</tr>
+<tr>
+<td><code>Alt + I</code></td>
+<td>语音输入</td>
+</tr>
+<tr>
+<td><code>Ctrl + F7</code></td>
+<td>网页调试</td>
+</tr>
+<tr>
+<td><code>XButton1</code> / <code>XButton2</code></td>
+<td>LOL 窗口存在时，开始语音输入 / 提交原文</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details>
+<summary><b>旧 API 版本配置</b></summary>
+<p>配置文件为 <code>config/setting.json</code>。在现有配置中选择主服务，并按需调整对应服务的字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cd</code></td>
+<td>默认翻译服务，对应配置中的服务名称</td>
+</tr>
+<tr>
+<td><code>is_open</code></td>
+<td>是否加入可切换的服务列表，<code>1</code> 为启用</td>
+</tr>
+<tr>
+<td><code>is_real_time_translate</code></td>
+<td>是否随输入自动翻译；支持此选项的服务设为 <code>0</code> 后用空格触发</td>
+</tr>
+<tr>
+<td><code>BaiduFanyiAPPID</code> / <code>BaiduFanyiAPPSEC</code></td>
+<td>百度翻译所需的应用信息</td>
+</tr>
+</tbody>
+</table>
+<p>例如，使用已有的搜狗配置时，可调整以下字段；这是局部示例，不要直接覆盖整个配置文件：</p>
+<pre><code class="language-json">{
+  &quot;cd&quot;: &quot;sougou&quot;,
+  &quot;sougou&quot;: {
+    &quot;is_open&quot;: 1,
+    &quot;is_real_time_translate&quot;: 1
+  }
 }
-</code></pre><pre data-role="codeBlock" data-info="" class="language-text text"><code>https://fanyi.sogou.com/text?keyword=%E4%BD%A0%E5%A5%BD&amp;transfrom=auto&amp;transto=en&amp;model=general
-    "sougou" :
-    {
-        "is_open" : 1,
-        "is_real_time_translate" : 1
-    },
-</code></pre><ul>
-<li>谷歌</li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text text"><code>{
-    "is_open" : 0,
-    "is_real_time_translate" : 0
-}
-</code></pre><ul>
-<li>百度翻译<br>
-需要自己注册后，把key填到配置文件<br>
-<a href="http://api.fanyi.baidu.com/api/trans/product/index">http://api.fanyi.baidu.com/api/trans/product/index</a></li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text text"><code>{
-    "is_open" : 0,
-    "BaiduFanyiAPPID" : "xxxxx",
-    "BaiduFanyiAPPSEC": "xxxxx",
-    "is_real_time_translate" : 0
-}
-</code></pre><p>因为百度使用次数有限额，因此通过  <code>is_baidu_real_time_translate</code> 来配置是否实时触发翻译<br>
-当配置 <code>0</code> 时，需要输入 <code>空格</code> 键 主动翻译, 建议输入最后键入<code>空格</code></p>
-<ul>
-<li>切换</li>
-</ul>
-<p>按 <code>tab</code>键，从配置和打开的API切换</p>
-
-      </div>
-      
-      
-    
-    
-    
-    
-    
-    
-  
-    </body></html>
+</code></pre>
+<p>按 <code>Tab</code> 在已启用的服务间切换。需要应用信息的接口须自行配置；具体可用性、额度和费用以服务提供方的当前规则为准。</p>
+</details>
+<hr />
+<p align="center">
+  <b>从实时打字翻译，到松果输入法。</b><br />
+  <a href="#preview">回到松果预览版</a> · <a href="https://github.com/sxzxs/Real-time-translation-typing/releases">下载与更新</a> · <a href="https://github.com/sxzxs/Real-time-translation-typing/issues">问题反馈</a>
+</p>
+</main>
+</body>
+</html>

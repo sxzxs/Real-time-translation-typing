@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="112" viewBox="0 0 520 112" role="img" aria-labelledby="title">
+  <title id="title">松果预览版：当前体验与下载</title>
+  <rect x="1" y="1" width="518" height="110" rx="16" fill="#fff1e8" stroke="#f1c8b2"/>
+  <rect x="1" y="100" width="518" height="11" rx="5" fill="#ee6a24"/>
+  <text x="30" y="65" fill="#c34b11" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">01</text>
+  <text x="90" y="49" fill="#923b15" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="27" font-weight="700">松果预览版</text>
+  <text x="90" y="80" fill="#97634a" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="18">当前体验与下载</text>
+  <path d="M458 47l9 9-9 9" fill="none" stroke="#c34b11" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
