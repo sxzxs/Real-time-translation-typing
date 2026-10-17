@@ -30,7 +30,7 @@
 <p align="center">
   <img src="images/songguo-preview-light.png" alt="松果浅色界面：上方暂存会议通知，下方输入 AI 指令“改得更简洁，保留原意。”" width="880" />
   <br />
-  <sub>预览版界面示例 · 上方组织正文，下方输入要求 · 使用本地演示文本</sub>
+  <sub>AI 指令 · 上方组织正文，下方输入要求</sub>
 </p>
 
 | 输入与编辑 | AI 与跨语言表达 |
@@ -41,27 +41,37 @@
 
 AI、翻译和语音功能需在设置中配置对应的服务、模型或设备，联网与费用取决于所选服务。当前为预览版本，具体功能与更新说明以下载的发行包为准。
 
+### 当前界面展示
+
+以下界面图于 2026 年 10 月 17 日使用当前代码的原生界面重新生成，文字、译文及对话内容为本地演示样例。
+
+**文字暂存 · 先组织，再发送**
+
+<p align="center">
+  <img src="images/songguo-staging.png" alt="当前文字暂存界面：多行正文、行号、截图与 AI 指令入口" width="880" />
+</p>
+
+**实时翻译 · 原文与译文一起看**
+
+<p align="center">
+  <img src="images/songguo-translation.png" alt="当前实时翻译界面：中文会议提醒与对应的英文示例译文" width="880" />
+</p>
+
+<details>
+<summary><b>查看连续对话界面</b></summary>
+
+<p align="center">
+  <img src="images/songguo-chat.png" alt="当前连续对话界面：引用暂存区、查看回复、继续提问或应用结果" width="880" />
+</p>
+
+</details>
+
 <details>
 <summary><b>查看深色界面</b></summary>
 
 <p align="center">
   <img src="images/songguo-preview-dark.png" alt="松果深色界面中的暂存正文与 AI 指令区" width="880" />
 </p>
-
-</details>
-
-<details>
-<summary><b>查看早期预览版动图</b></summary>
-
-以下为项目早期预览版录制，保留用于了解操作过程；名称、外观和细节可能与当前松果不同。
-
-![早期预览版操作演示一](images/QQ20260418-234754.gif)
-
-![早期预览版操作演示二](images/QQ20260418-234905.gif)
-
-![早期预览版操作演示三](images/QQ20260418-234955.gif)
-
-![早期预览版操作演示四](images/QQ20260418-235109.gif)
 
 </details>
 

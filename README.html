@@ -62,7 +62,7 @@ hr { height:1px; border:0; background:var(--line); margin:38px 0; }
 <p align="center">
   <img src="images/songguo-preview-light.png" alt="松果浅色界面：上方暂存会议通知，下方输入 AI 指令“改得更简洁，保留原意。”" width="880" />
   <br />
-  <sub>预览版界面示例 · 上方组织正文，下方输入要求 · 使用本地演示文本</sub>
+  <sub>AI 指令 · 上方组织正文，下方输入要求</sub>
 </p>
 <table>
 <thead>
@@ -87,28 +87,36 @@ hr { height:1px; border:0; background:var(--line); margin:38px 0; }
 </tbody>
 </table>
 <p>AI、翻译和语音功能需在设置中配置对应的服务、模型或设备，联网与费用取决于所选服务。当前为预览版本，具体功能与更新说明以下载的发行包为准。</p>
+<h3 id="section-2">当前界面展示</h3>
+<p>以下界面图于 2026 年 10 月 17 日使用当前代码的原生界面重新生成，文字、译文及对话内容为本地演示样例。</p>
+<p><strong>文字暂存 · 先组织，再发送</strong></p>
+<p align="center">
+  <img src="images/songguo-staging.png" alt="当前文字暂存界面：多行正文、行号、截图与 AI 指令入口" width="880" />
+</p>
+<p><strong>实时翻译 · 原文与译文一起看</strong></p>
+<p align="center">
+  <img src="images/songguo-translation.png" alt="当前实时翻译界面：中文会议提醒与对应的英文示例译文" width="880" />
+</p>
+<details>
+<summary><b>查看连续对话界面</b></summary>
+<p align="center">
+  <img src="images/songguo-chat.png" alt="当前连续对话界面：引用暂存区、查看回复、继续提问或应用结果" width="880" />
+</p>
+</details>
 <details>
 <summary><b>查看深色界面</b></summary>
 <p align="center">
   <img src="images/songguo-preview-dark.png" alt="松果深色界面中的暂存正文与 AI 指令区" width="880" />
 </p>
 </details>
-<details>
-<summary><b>查看早期预览版动图</b></summary>
-<p>以下为项目早期预览版录制，保留用于了解操作过程；名称、外观和细节可能与当前松果不同。</p>
-<p><img src="images/QQ20260418-234754.gif" alt="早期预览版操作演示一" /></p>
-<p><img src="images/QQ20260418-234905.gif" alt="早期预览版操作演示二" /></p>
-<p><img src="images/QQ20260418-234955.gif" alt="早期预览版操作演示三" /></p>
-<p><img src="images/QQ20260418-235109.gif" alt="早期预览版操作演示四" /></p>
-</details>
-<h3 id="section-2">三步开始使用</h3>
+<h3 id="section-3">三步开始使用</h3>
 <ol>
 <li><strong>下载并解压</strong>：打开 <a href="https://github.com/sxzxs/Real-time-translation-typing/releases">Releases</a>，在附件中选择松果 Windows 发行包，完整解压。GitHub 自动生成的 <code>Source code</code> 是仓库源码。</li>
 <li><strong>准备运行环境</strong>：首次使用运行包内的 <code>00-Install-Runtimes.bat</code>，按提示检查并安装所需运行组件。</li>
 <li><strong>开始输入</strong>：运行 <code>SongGuo.exe</code>，点一下要输入文字的位置，再按 <code>F3</code> 唤起松果。选好文字、完成当前编码后，按 <code>Enter</code> 把整段内容送回原软件。</li>
 </ol>
 <p>需要系统输入法集成时，按发行包说明运行 <code>Register-SongGuoTsf.bat</code>。完整操作说明可在程序的内置帮助中查看。</p>
-<h3 id="section-3">先记住这几个按键</h3>
+<h3 id="section-4">先记住这几个按键</h3>
 <table>
 <thead>
 <tr>
@@ -167,7 +175,7 @@ hr { height:1px; border:0; background:var(--line); margin:38px 0; }
   <br />
   <sub>AHK 经典版历史演示</sub>
 </p>
-<h3 id="section-4">如何运行</h3>
+<h3 id="section-5">如何运行</h3>
 <p>保留完整仓库的目录结构，使用兼容的 <a href="https://github.com/thqby/AutoHotkey_H/releases">AutoHotkey v2H</a> 运行。网页调用版本还需要 <a href="https://developer.microsoft.com/microsoft-edge/webview2/">Microsoft Edge WebView2 Runtime</a>。</p>
 <table>
 <thead>
