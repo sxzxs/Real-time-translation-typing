@@ -642,6 +642,17 @@ Class BeautifulToolTip extends Map
     return O
   }
 
+  ; hMonitor 来自 MDMF_FromPoint() 的实时查询，而 this.Monitors 是对象创建时缓存的显示器列表。
+  ; 如果显示器配置在缓存之后发生变化（插拔显示器、休眠唤醒等），hMonitor 可能不在缓存里，
+  ; 直接 this.Monitors[hMonitor] 会抛出 "Item has no value" 导致崩溃（见 issue #53）。
+  ; 这里在找不到时刷新一次缓存，仍找不到就回退到主显示器，保证不会崩溃。
+  _GetMonitorInfo(hMonitor)
+  {
+      if !this.Monitors.Has(hMonitor)
+          this.Monitors := MDMF_Enum()
+      return this.Monitors.Has(hMonitor) ? this.Monitors[hMonitor] : this.Monitors[this.Monitors["Primary"]]
+  }
+
   ; 此函数确保文本框显示位置不会超出目标范围。
   ; 使用 ByRef X, ByRef Y 返回不超限的位置。
   _CalculateDisplayPosition(&X, &Y, W, H, Options, GetTargetSize:=0)
@@ -670,14 +681,15 @@ Class BeautifulToolTip extends Map
       ; 为什么 1920,1080 是错误的呢？因为 1920 是宽度，而坐标起点是0，所以最右边坐标值是 1919，最下面是 1079。
       ;=, hMonitor     := MDMF_FromPoint(DisplayX, DisplayY, MONITOR_DEFAULTTONEAREST:=2)
       , hMonitor     := MDMF_FromPoint(&DisplayX, &DisplayY, MONITOR_DEFAULTTONEAREST:=2)
-      , TargetLeft   := this.Monitors[hMonitor].Left
-      , TargetTop    := this.Monitors[hMonitor].Top
-      , TargetRight  := this.Monitors[hMonitor].Right
-      , TargetBottom := this.Monitors[hMonitor].Bottom
+      , MonitorInfo  := this._GetMonitorInfo(hMonitor)
+      , TargetLeft   := MonitorInfo.Left
+      , TargetTop    := MonitorInfo.Top
+      , TargetRight  := MonitorInfo.Right
+      , TargetBottom := MonitorInfo.Bottom
       , TargetWidth  := TargetRight-TargetLeft
       , TargetHeight := TargetBottom-TargetTop
       ; 将对应屏幕的 DPIScale 存入 Options 中。
-      , Options.DPIScale := this.Monitors[hMonitor].DPIScale
+      , Options.DPIScale := MonitorInfo.DPIScale
     }
       ; 已给出 x和y 或x 或y，都会走到下面3个分支去。
     else if (Options.CoordMode  = "Window" or Options.CoordMode  = "Relative")
@@ -695,7 +707,7 @@ Class BeautifulToolTip extends Map
       , DisplayX     := (X="") ? MouseX : XInScreen
       , DisplayY     := (Y="") ? MouseY : YInScreen
       , hMonitor     := MDMF_FromPoint(&DisplayX, &DisplayY, MONITOR_DEFAULTTONEAREST:=2)
-      , Options.DPIScale := this.Monitors[hMonitor].DPIScale
+      , Options.DPIScale := this._GetMonitorInfo(hMonitor).DPIScale
     }
     else if (Options.CoordMode  = "Client")
     { ; 已给出 x或y 且使用客户区坐标
@@ -718,20 +730,21 @@ Class BeautifulToolTip extends Map
       , DisplayX     := (X="") ? MouseX : XInScreen
       , DisplayY     := (Y="") ? MouseY : YInScreen
       , hMonitor     := MDMF_FromPoint(&DisplayX, &DisplayY, MONITOR_DEFAULTTONEAREST:=2)
-      , Options.DPIScale := this.Monitors[hMonitor].DPIScale
+      , Options.DPIScale := this._GetMonitorInfo(hMonitor).DPIScale
     }
     else ; 这里必然 A_CoordModeToolTip = "Screen"
     { ; 已给出 x或y 且使用屏幕坐标
         DisplayX     := (X="") ? MouseX : X
       , DisplayY     := (Y="") ? MouseY : Y
       , hMonitor     := MDMF_FromPoint(&DisplayX, &DisplayY, MONITOR_DEFAULTTONEAREST:=2)
-      , TargetLeft   := this.Monitors[hMonitor].Left
-      , TargetTop    := this.Monitors[hMonitor].Top
-      , TargetRight  := this.Monitors[hMonitor].Right
-      , TargetBottom := this.Monitors[hMonitor].Bottom
+      , MonitorInfo  := this._GetMonitorInfo(hMonitor)
+      , TargetLeft   := MonitorInfo.Left
+      , TargetTop    := MonitorInfo.Top
+      , TargetRight  := MonitorInfo.Right
+      , TargetBottom := MonitorInfo.Bottom
       , TargetWidth  := TargetRight-TargetLeft
       , TargetHeight := TargetBottom-TargetTop
-      , Options.DPIScale := this.Monitors[hMonitor].DPIScale
+      , Options.DPIScale := MonitorInfo.DPIScale
     }
 
     if (GetTargetSize=1)
